@@ -34,22 +34,23 @@ CREATE TABLE IF NOT EXISTS photos (
 CREATE INDEX IF NOT EXISTS measurements_room ON measurements(room_id, sort);
 CREATE INDEX IF NOT EXISTS photos_room ON photos(room_id, sort);
 
--- Rooms. Floor 1 = downstairs, 2 = upstairs. Blurbs describe position physically
--- (relative to the front door and the window wall), not by compass.
-INSERT OR IGNORE INTO rooms (id, name, floor, sort, blurb) VALUES
-  ('living',   'Living room',   1, 1, 'Along the big window wall. The front door is in the corner at the near end.'),
-  ('dining',   'Dining area',   1, 2, 'Open area between the kitchen and the windows, under the pendant light.'),
-  ('kitchen',  'Kitchen',       1, 3, 'In the corner diagonally opposite the front door.'),
-  ('office',   'Office',        1, 4, 'Glass-walled room beside the living room, on the front-door side.'),
-  ('nook',     'Nook',          1, 5, 'Alcove in the far corner by the windows, where the leasing plan shows a foyer.'),
-  ('stairs',   'Stairs & closet', 1, 6, 'Stairs up, with a closet underneath.'),
-  ('halfbath', 'Half bath',     1, 7, 'Downstairs powder room between the kitchen and the nook.'),
-  ('bed1',     'Bedroom 1',     2, 1, 'Upstairs, over the kitchen end.'),
-  ('bed2',     'Bedroom 2',     2, 2, 'Upstairs, over the living room end.'),
-  ('bath1',    'Bathroom 1',    2, 3, 'Upstairs, at the kitchen end, by bedroom 1.'),
-  ('bath2',    'Bathroom 2',    2, 4, 'Upstairs, at the living room end, off the hall.'),
-  ('laundry',  'Laundry closet', 2, 5, 'Stacked washer and dryer in the upstairs hall.'),
-  ('hall',     'Upstairs hall', 2, 6, 'Landing at the top of the stairs and the hall between the bedrooms.');
+-- Rooms. Floor 1 = downstairs, 2 = upstairs. The windows face east, so blurbs use
+-- compass directions. Re-running updates names and blurbs; notes are left alone.
+INSERT INTO rooms (id, name, floor, sort, blurb) VALUES
+  ('living',   'Living room',    1, 1, 'South-east corner of downstairs, along the east windows. The front door is in its south-east corner and swings in along the window wall.'),
+  ('dining',   'Dining area',    1, 2, 'Open floor between the kitchen and the east windows, north of the living room.'),
+  ('kitchen',  'Kitchen',        1, 3, 'North-west corner. Counters run along the north and west walls; the fridge sits against the half-bath wall.'),
+  ('office',   'Office',         1, 4, 'South-west corner, with interior windows onto the living room. Its door is at the north end of that wall.'),
+  ('nook',     'Nook',           1, 5, 'North-east corner, beside the half bath, where the leasing plan shows a foyer.'),
+  ('stairs',   'Stairs & closet', 1, 6, 'West side, between the kitchen and the office. Up from the dining side, two left turns, landing in the upstairs hall. The closet under the top flight opens into the office.'),
+  ('halfbath', 'Half bath',      1, 7, 'North wall, between the kitchen and the nook. Door opens out toward the dining area.'),
+  ('bed1',     'Master bedroom', 2, 1, 'North end upstairs, with the east windows, wrapping around the laundry. Walk-in closet and master bath open off it.'),
+  ('bath1',    'Master bath',    2, 2, 'North-west corner upstairs, entered from the master bedroom.'),
+  ('bed2',     'Guest bedroom',  2, 3, 'South end upstairs, one east window. Its closet and the guest bath open off it.'),
+  ('bath2',    'Guest bath',     2, 4, 'South-west corner upstairs, entered from the guest bedroom.'),
+  ('laundry',  'Laundry',        2, 5, 'Center of the upstairs, double doors opening into the hall.'),
+  ('hall',     'Hall',           2, 6, 'Short hall at the top of the stairs: master door at the north end, laundry on the east side, guest room door at the south end.')
+ON CONFLICT(id) DO UPDATE SET name = excluded.name, floor = excluded.floor, sort = excluded.sort, blurb = excluded.blurb;
 
 -- Measurement checklist. Empty rows to fill in during the walkthrough; more can be added on the site.
 INSERT OR IGNORE INTO measurements (room_id, label, sort) VALUES
@@ -62,7 +63,7 @@ INSERT OR IGNORE INTO measurements (room_id, label, sort) VALUES
   ('living', 'Window, height', 7),
   ('living', 'Window sill, height from floor', 8),
   ('living', 'Wall above window, to ceiling', 9),
-  ('living', 'Front-door wall, door to office glass (TV wall)', 10),
+  ('living', 'South wall, front door to office wall (TV wall)', 10),
 
   ('dining', 'Open span, kitchen to windows', 1),
   ('dining', 'Open span, nook wall to living area', 2),
@@ -83,13 +84,13 @@ INSERT OR IGNORE INTO measurements (room_id, label, sort) VALUES
   ('office', 'Width', 2),
   ('office', 'Ceiling height', 3),
   ('office', 'Door, clear width', 4),
-  ('office', 'Glass wall, width', 5),
-  ('office', 'Glass wall, height', 6),
+  ('office', 'Interior windows, width', 5),
+  ('office', 'Interior windows, height', 6),
   ('office', 'Closet, width', 7),
   ('office', 'Closet, depth', 8),
   ('office', 'Exterior window, width', 9),
 
-  ('nook', 'Opening, width', 1),
+  ('nook', 'Width', 1),
   ('nook', 'Depth', 2),
   ('nook', 'Height', 3),
 
@@ -113,8 +114,8 @@ INSERT OR IGNORE INTO measurements (room_id, label, sort) VALUES
   ('bed1', 'Window, width', 5),
   ('bed1', 'Window, height', 6),
   ('bed1', 'Window sill, height from floor', 7),
-  ('bed1', 'Closet, width', 8),
-  ('bed1', 'Closet, depth', 9),
+  ('bed1', 'Walk-in closet, width', 8),
+  ('bed1', 'Walk-in closet, depth', 9),
   ('bed1', 'Headboard wall, width', 10),
 
   ('bed2', 'Length', 1),
@@ -142,7 +143,7 @@ INSERT OR IGNORE INTO measurements (room_id, label, sort) VALUES
   ('bath2', 'Tub or shower, length', 5),
   ('bath2', 'Towel wall, width', 6),
 
-  ('laundry', 'Opening, width', 1),
+  ('laundry', 'Door opening, width', 1),
   ('laundry', 'Depth', 2),
   ('laundry', 'Height', 3),
 
