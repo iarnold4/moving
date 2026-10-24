@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Apartment</title>
+<meta name="description" content="Layout, measurements and photos of the new place.">
+<meta name="theme-color" content="#f6f2ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1715" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 15 16 5l12 10v12H4z' fill='%23b5532a'/%3E%3Cpath d='M13 27v-8h6v8' fill='%23f6f2ea'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site">
+  <h1>The Apartment</h1>
+  <p class="tag">Moving in November 20. Tap a room on the plan for its measurements and photos.</p>
+  <div class="tools">
+    <label class="units">Units
+      <select id="units">
+        <option value="in">feet &amp; inches</option>
+        <option value="cm">centimeters</option>
+      </select>
+    </label>
+    <button id="copy" type="button">Copy all as text</button>
+  </div>
+</header>
+
+<main>
+  <section class="plans" aria-label="Floor plans">
+    <figure id="plan-1"><figcaption>Downstairs</figcaption></figure>
+    <figure id="plan-2"><figcaption>Upstairs</figcaption></figure>
+    <p class="fine">Schematic, not to scale. The front door and the nook are drawn where they really are, not where the leasing plan puts them.</p>
+  </section>
+
+  <section id="rooms" aria-live="polite"><p class="loading">Loading…</p></section>
+</main>
+
+<footer>
+  <p><span id="updated"></span> <button id="edit-toggle" class="link" type="button">Edit</button></p>
+</footer>
+
+<div id="editbar" hidden>
+  <span>Editing. Changes save as you go.</span>
+  <button id="edit-done" type="button">Done</button>
+</div>
+
+<div id="lightbox" hidden role="dialog" aria-label="Photo">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <button class="nav prev" type="button" aria-label="Previous">‹</button>
+  <img alt="">
+  <button class="nav next" type="button" aria-label="Next">›</button>
+  <p class="cap"></p>
+</div>
+
+<div id="toast" hidden></div>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>

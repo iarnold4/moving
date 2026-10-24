@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "moving",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/photos/*"]
+  },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "moving-db", "database_id": "965d26e0-f798-4422-9112-7632aecc07bc" }
+  ],
+  "r2_buckets": [
+    { "binding": "PHOTOS", "bucket_name": "moving-photos" }
+  ],
+  "routes": [
+    { "pattern": "moving.ikeflix.com", "custom_domain": true }
+  ],
+  "observability": { "enabled": true, "head_sampling_rate": 1 }
+}

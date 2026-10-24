@@ -1,0 +1,116 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "The Apartment" [level=1] [ref=e3]
+    - paragraph [ref=e4]: Moving in November 20. Tap a room on the plan for its measurements and photos.
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - text: Units
+        - combobox "Units" [ref=e7]:
+          - option "feet & inches" [selected]
+          - option "centimeters"
+      - button "Copy all as text" [ref=e8] [cursor=pointer]
+  - main [ref=e9]:
+    - region "Floor plans" [ref=e10]:
+      - figure "Downstairs" [ref=e11]:
+        - img "Downstairs floor plan" [ref=e13]:
+          - generic [ref=e14] [cursor=pointer]
+          - generic [ref=e15] [cursor=pointer]
+          - generic [ref=e16] [cursor=pointer]
+          - generic [ref=e17] [cursor=pointer]
+          - generic [ref=e18] [cursor=pointer]
+          - generic [ref=e19] [cursor=pointer]
+          - generic [ref=e20] [cursor=pointer]
+          - generic: front door
+          - generic: Kitchen
+          - generic: Half
+          - generic: bath
+          - generic: closet
+          - generic: Nook
+          - generic: Stairs
+          - generic: landing
+          - generic: closet
+          - generic: Office
+          - generic: Dining
+          - generic: Living room
+          - generic: windows
+      - figure "Upstairs" [ref=e22]:
+        - img "Upstairs floor plan" [ref=e24]:
+          - generic [ref=e25] [cursor=pointer]
+          - generic [ref=e27] [cursor=pointer]
+          - generic [ref=e28] [cursor=pointer]
+          - generic [ref=e29] [cursor=pointer]
+          - generic [ref=e30] [cursor=pointer]
+          - generic [ref=e31] [cursor=pointer]
+          - generic [ref=e32] [cursor=pointer]
+          - generic [ref=e34] [cursor=pointer]
+          - generic [ref=e35] [cursor=pointer]
+          - generic: Bath 1
+          - generic: closet
+          - generic: Bedroom 1
+          - generic: Landing
+          - generic: stairs
+          - generic: W/D
+          - generic: Bath 2
+          - generic: closet
+          - generic: Bedroom 2
+          - generic: windows
+      - paragraph [ref=e36]: Schematic, not to scale. The front door and the nook are drawn where they really are, not where the leasing plan puts them.
+    - generic [ref=e37]:
+      - heading "Downstairs" [level=2] [ref=e38]
+      - group [ref=e39]:
+        - generic "Living room 0 of 10 measured" [ref=e40] [cursor=pointer]:
+          - generic [ref=e41]: Living room
+          - generic [ref=e42]: 0 of 10 measured
+      - group [ref=e43]:
+        - generic "Dining area 0 of 4 measured" [ref=e44] [cursor=pointer]:
+          - generic [ref=e45]: Dining area
+          - generic [ref=e46]: 0 of 4 measured
+      - group [ref=e47]:
+        - generic "Kitchen 0 of 9 measured" [ref=e48] [cursor=pointer]:
+          - generic [ref=e49]: Kitchen
+          - generic [ref=e50]: 0 of 9 measured
+      - group [ref=e51]:
+        - generic "Office 0 of 9 measured" [ref=e52] [cursor=pointer]:
+          - generic [ref=e53]: Office
+          - generic [ref=e54]: 0 of 9 measured
+      - group [ref=e55]:
+        - generic "Nook 0 of 3 measured" [ref=e56] [cursor=pointer]:
+          - generic [ref=e57]: Nook
+          - generic [ref=e58]: 0 of 3 measured
+      - group [ref=e59]:
+        - generic "Stairs & closet 0 of 7 measured" [ref=e60] [cursor=pointer]:
+          - generic [ref=e61]: Stairs & closet
+          - generic [ref=e62]: 0 of 7 measured
+      - group [ref=e63]:
+        - generic "Half bath 0 of 4 measured" [ref=e64] [cursor=pointer]:
+          - generic [ref=e65]: Half bath
+          - generic [ref=e66]: 0 of 4 measured
+      - heading "Upstairs" [level=2] [ref=e67]
+      - group [ref=e68]:
+        - generic "Bedroom 1 0 of 10 measured" [ref=e69] [cursor=pointer]:
+          - generic [ref=e70]: Bedroom 1
+          - generic [ref=e71]: 0 of 10 measured
+      - group [ref=e72]:
+        - generic "Bedroom 2 0 of 10 measured" [ref=e73] [cursor=pointer]:
+          - generic [ref=e74]: Bedroom 2
+          - generic [ref=e75]: 0 of 10 measured
+      - group [ref=e76]:
+        - generic "Bathroom 1 0 of 6 measured" [ref=e77] [cursor=pointer]:
+          - generic [ref=e78]: Bathroom 1
+          - generic [ref=e79]: 0 of 6 measured
+      - group [ref=e80]:
+        - generic "Bathroom 2 0 of 6 measured" [ref=e81] [cursor=pointer]:
+          - generic [ref=e82]: Bathroom 2
+          - generic [ref=e83]: 0 of 6 measured
+      - group [ref=e84]:
+        - generic "Laundry closet 0 of 3 measured" [ref=e85] [cursor=pointer]:
+          - generic [ref=e86]: Laundry closet
+          - generic [ref=e87]: 0 of 3 measured
+      - group [ref=e88]:
+        - generic "Upstairs hall 0 of 3 measured" [ref=e89] [cursor=pointer]:
+          - generic [ref=e90]: Upstairs hall
+          - generic [ref=e91]: 0 of 3 measured
+  - contentinfo [ref=e92]:
+    - paragraph [ref=e93]:
+      - text: Nothing measured yet ·
+      - button "Edit" [ref=e94] [cursor=pointer]

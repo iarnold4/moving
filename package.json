@@ -1,0 +1,16 @@
+{
+  "name": "moving",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 execute moving-db --local --file=./schema.sql",
+    "db:remote": "wrangler d1 execute moving-db --remote --file=./schema.sql",
+    "secret": "wrangler secret put EDIT_KEY"
+  },
+  "type": "module",
+  "devDependencies": {
+    "wrangler": "^4.152.0"
+  },
+  "private": true
+}

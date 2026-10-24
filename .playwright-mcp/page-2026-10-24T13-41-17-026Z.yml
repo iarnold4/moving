@@ -1,0 +1,212 @@
+- generic [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - heading "The Apartment" [level=1] [ref=f1e3]
+    - paragraph [ref=f1e4]: Moving in November 20. Tap a room on the plan for its measurements and photos.
+    - generic [ref=f1e5]:
+      - generic [ref=f1e6]:
+        - text: Units
+        - combobox "Units" [ref=f1e7]:
+          - option "feet & inches" [selected]
+          - option "centimeters"
+      - button "Copy all as text" [ref=f1e8] [cursor=pointer]
+  - main [ref=f1e9]:
+    - region "Floor plans" [ref=f1e10]:
+      - figure "Downstairs" [ref=f1e11]:
+        - img "Downstairs floor plan" [ref=f1e13]:
+          - generic [ref=f1e14] [cursor=pointer]
+          - generic [ref=f1e15] [cursor=pointer]
+          - generic [ref=f1e16] [cursor=pointer]
+          - generic [ref=f1e17] [cursor=pointer]
+          - generic [ref=f1e18] [cursor=pointer]
+          - generic [ref=f1e19] [cursor=pointer]
+          - generic [ref=f1e20] [cursor=pointer]
+          - generic: front door
+          - generic: Kitchen
+          - generic: Half
+          - generic: bath
+          - generic: closet
+          - generic: Nook
+          - generic: Stairs
+          - generic: landing
+          - generic: closet
+          - generic: Office
+          - generic: Dining
+          - generic: Living room
+          - generic: windows
+      - figure "Upstairs" [ref=f1e22]:
+        - img "Upstairs floor plan" [ref=f1e24]:
+          - generic [ref=f1e25] [cursor=pointer]
+          - generic [ref=f1e27] [cursor=pointer]
+          - generic [ref=f1e28] [cursor=pointer]
+          - generic [ref=f1e29] [cursor=pointer]
+          - generic [ref=f1e30] [cursor=pointer]
+          - generic [ref=f1e31] [cursor=pointer]
+          - generic [ref=f1e32] [cursor=pointer]
+          - generic [ref=f1e34] [cursor=pointer]
+          - generic [ref=f1e35] [cursor=pointer]
+          - generic [ref=f1e36] [cursor=pointer]
+          - generic: Bath 1
+          - generic: closet
+          - generic: Bedroom 1
+          - generic: Landing
+          - generic: stairs
+          - generic: W/D
+          - generic: Bath 2
+          - generic: closet
+          - generic: Bedroom 2
+          - generic: windows
+      - paragraph [ref=f1e37]: Schematic, not to scale. The front door and the nook are drawn where they really are, not where the leasing plan puts them.
+    - generic [ref=f1e38]:
+      - heading "Downstairs" [level=2] [ref=f1e43]
+      - group [ref=f1e44]:
+        - generic "Living room 3 of 11 measured · 2 photos" [ref=f1e183] [cursor=pointer]:
+          - generic [ref=f1e46]: Living room
+          - generic [ref=f1e47]: 3 of 11 measured · 2 photos
+        - generic [ref=f1e102]:
+          - paragraph [ref=f1e103]: Along the big window wall. The front door is in the corner at the near end.
+          - generic [ref=f1e104]:
+            - generic [ref=f1e105]:
+              - textbox "Label": Room length, along the window wall
+              - generic [ref=f1e106]:
+                - textbox "Measurement" [ref=f1e107]:
+                  - /placeholder: e.g. 8' 6"
+                  - text: 18' 4 1/2"
+                - generic [ref=f1e108]: = 18′ 4½″
+              - textbox "Note" [ref=f1e109]
+              - button "Delete this measurement" [ref=f1e110] [cursor=pointer]: ✕
+            - generic [ref=f1e111]:
+              - textbox "Label": Room width, front-door wall to the far side
+              - generic [ref=f1e112]:
+                - textbox "Measurement" [ref=f1e113]:
+                  - /placeholder: e.g. 8' 6"
+                  - text: 4.2 m
+                - generic [ref=f1e114]: = 13′ 9⅜″
+              - textbox "Note" [ref=f1e115]
+              - button "Delete this measurement" [ref=f1e116] [cursor=pointer]: ✕
+            - generic [ref=f1e117]:
+              - textbox "Label": Ceiling height
+              - generic [ref=f1e118]:
+                - textbox "Measurement" [ref=f1e119]:
+                  - /placeholder: e.g. 8' 6"
+                  - text: about 14 ft, slopes
+                - generic [ref=f1e120]: saved as text
+              - textbox "Note" [ref=f1e121]
+              - button "Delete this measurement" [ref=f1e122] [cursor=pointer]: ✕
+            - generic [ref=f1e123]:
+              - textbox "Label": Front door, clear width
+              - textbox "Measurement" [ref=f1e125]:
+                - /placeholder: e.g. 8' 6"
+              - textbox "Note" [ref=f1e127]
+              - button "Delete this measurement" [ref=f1e128] [cursor=pointer]: ✕
+            - generic [ref=f1e129]:
+              - textbox "Label": Front door, height
+              - textbox "Measurement" [ref=f1e131]:
+                - /placeholder: e.g. 8' 6"
+              - textbox "Note" [ref=f1e133]
+              - button "Delete this measurement" [ref=f1e134] [cursor=pointer]: ✕
+            - generic [ref=f1e135]:
+              - textbox "Label": Window, width
+              - textbox "Measurement" [ref=f1e137]:
+                - /placeholder: e.g. 8' 6"
+              - textbox "Note" [ref=f1e139]
+              - button "Delete this measurement" [ref=f1e140] [cursor=pointer]: ✕
+            - generic [ref=f1e141]:
+              - textbox "Label": Window, height
+              - textbox "Measurement" [ref=f1e143]:
+                - /placeholder: e.g. 8' 6"
+              - textbox "Note" [ref=f1e145]
+              - button "Delete this measurement" [ref=f1e146] [cursor=pointer]: ✕
+            - generic [ref=f1e147]:
+              - textbox "Label": Window sill, height from floor
+              - textbox "Measurement" [ref=f1e149]:
+                - /placeholder: e.g. 8' 6"
+              - textbox "Note" [ref=f1e151]
+              - button "Delete this measurement" [ref=f1e152] [cursor=pointer]: ✕
+            - generic [ref=f1e153]:
+              - textbox "Label": Wall above window, to ceiling
+              - textbox "Measurement" [ref=f1e155]:
+                - /placeholder: e.g. 8' 6"
+              - textbox "Note" [ref=f1e157]
+              - button "Delete this measurement" [ref=f1e158] [cursor=pointer]: ✕
+            - generic [ref=f1e159]:
+              - textbox "Label": Front-door wall, door to office glass (TV wall)
+              - textbox "Measurement" [ref=f1e161]:
+                - /placeholder: e.g. 8' 6"
+              - textbox "Note" [ref=f1e163]
+              - button "Delete this measurement" [ref=f1e164] [cursor=pointer]: ✕
+            - generic [ref=f1e184]:
+              - textbox "Label" [active]: ed
+              - textbox "Measurement" [ref=f1e186]:
+                - /placeholder: e.g. 8' 6"
+              - textbox "Note" [ref=f1e188]
+              - button "Delete this measurement" [ref=f1e189] [cursor=pointer]: ✕
+          - button "+ Add a measurement" [ref=f1e165] [cursor=pointer]
+          - generic [ref=f1e173]:
+            - figure [ref=f1e174]:
+              - img "Photo" [ref=f1e175]
+              - button "Delete photo" [ref=f1e176] [cursor=pointer]: ✕
+              - textbox "Caption" [ref=f1e177]: Front door seen from the window wall. Lighter floorboards mark the entry.
+            - figure [ref=f1e178]:
+              - img "Photo" [ref=f1e179]
+              - button "Delete photo" [ref=f1e180] [cursor=pointer]: ✕
+              - textbox "Caption" [ref=f1e181]: Standing in the front door, looking in
+          - generic [ref=f1e166] [cursor=pointer]: + Add photos
+          - generic [ref=f1e167]:
+            - heading "Notes" [level=4] [ref=f1e168]
+            - textbox "Anything else about this room" [ref=f1e169]
+      - group [ref=f1e48]:
+        - generic "Dining area 0 of 4 measured" [ref=f1e49] [cursor=pointer]:
+          - generic [ref=f1e50]: Dining area
+          - generic [ref=f1e51]: 0 of 4 measured
+      - group [ref=f1e52]:
+        - generic "Kitchen 0 of 9 measured" [ref=f1e53] [cursor=pointer]:
+          - generic [ref=f1e54]: Kitchen
+          - generic [ref=f1e55]: 0 of 9 measured
+      - group [ref=f1e56]:
+        - generic "Office 0 of 9 measured" [ref=f1e57] [cursor=pointer]:
+          - generic [ref=f1e58]: Office
+          - generic [ref=f1e59]: 0 of 9 measured
+      - group [ref=f1e60]:
+        - generic "Nook 0 of 3 measured" [ref=f1e61] [cursor=pointer]:
+          - generic [ref=f1e62]: Nook
+          - generic [ref=f1e63]: 0 of 3 measured
+      - group [ref=f1e64]:
+        - generic "Stairs & closet 0 of 7 measured" [ref=f1e65] [cursor=pointer]:
+          - generic [ref=f1e66]: Stairs & closet
+          - generic [ref=f1e67]: 0 of 7 measured
+      - group [ref=f1e68]:
+        - generic "Half bath 0 of 4 measured" [ref=f1e69] [cursor=pointer]:
+          - generic [ref=f1e70]: Half bath
+          - generic [ref=f1e71]: 0 of 4 measured
+      - heading "Upstairs" [level=2] [ref=f1e72]
+      - group [ref=f1e73]:
+        - generic "Bedroom 1 0 of 10 measured" [ref=f1e74] [cursor=pointer]:
+          - generic [ref=f1e75]: Bedroom 1
+          - generic [ref=f1e76]: 0 of 10 measured
+      - group [ref=f1e77]:
+        - generic "Bedroom 2 0 of 10 measured" [ref=f1e78] [cursor=pointer]:
+          - generic [ref=f1e79]: Bedroom 2
+          - generic [ref=f1e80]: 0 of 10 measured
+      - group [ref=f1e81]:
+        - generic "Bathroom 1 0 of 6 measured" [ref=f1e82] [cursor=pointer]:
+          - generic [ref=f1e83]: Bathroom 1
+          - generic [ref=f1e84]: 0 of 6 measured
+      - group [ref=f1e85]:
+        - generic "Bathroom 2 0 of 6 measured" [ref=f1e86] [cursor=pointer]:
+          - generic [ref=f1e87]: Bathroom 2
+          - generic [ref=f1e88]: 0 of 6 measured
+      - group [ref=f1e89]:
+        - generic "Laundry closet 0 of 3 measured" [ref=f1e90] [cursor=pointer]:
+          - generic [ref=f1e91]: Laundry closet
+          - generic [ref=f1e92]: 0 of 3 measured
+      - group [ref=f1e93]:
+        - generic "Upstairs hall 0 of 3 measured" [ref=f1e94] [cursor=pointer]:
+          - generic [ref=f1e95]: Upstairs hall
+          - generic [ref=f1e96]: 0 of 3 measured
+  - contentinfo [ref=f1e40]:
+    - paragraph [ref=f1e41]:
+      - text: Nothing measured yet ·
+      - button "Stop editing" [ref=f1e97] [cursor=pointer]
+  - generic [ref=f1e98]:
+    - generic [ref=f1e99]: Editing. Changes save as you go.
+    - button "Done" [ref=f1e100] [cursor=pointer]
