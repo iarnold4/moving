@@ -161,7 +161,7 @@ function upstairs() {
     DOOR(80, 207, 105, 207, 80, 232),           // guest closet, swings out into the room
 
     LABEL(41, 70, 'Master bath', 'small'),
-    LABEL(175, 44, 'Master bedroom'),
+    LABEL(175, 44, 'Master bedroom/Kovu\'s room'),
     LABEL(106, 92, 'closet', 'small'),
     LABEL(70, 118, 'stairs', 'small'),
     LABEL(70, 128, 'open below', 'small'),
