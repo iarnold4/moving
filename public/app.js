@@ -426,7 +426,7 @@ function stepLightbox(delta) {
 // ---------- copy as text ----------
 
 function asText() {
-  const lines = ['The Apartment — measurements'];
+  const lines = ['The Apartment, measurements'];
   if (state.updated) lines.push(`as of ${new Date(state.updated).toLocaleDateString()}`);
   for (const [floor, title] of [[1, 'DOWNSTAIRS'], [2, 'UPSTAIRS']]) {
     lines.push('', title);
