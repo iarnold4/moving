@@ -109,7 +109,7 @@ function downstairs() {
     LABEL(122, 110, 'up', 'small'),
     LABEL(65, 143, 'Stairs', 'small'),
     LABEL(112, 163, 'closet below', 'small'),
-    LABEL(76, 250, 'Office'),
+    LABEL(76, 250, 'Office/Kovu\'s room'),
     LABEL(218, 78, 'Dining'),
     LABEL(205, 225, 'Living room'),
     VLABEL(302, 150, 'windows'),
@@ -169,7 +169,7 @@ function upstairs() {
     LABEL(218, 122, 'Laundry', 'small'),
     LABEL(37, 240, 'Guest bath', 'small'),
     LABEL(103, 195, 'closet', 'small'),
-    LABEL(225, 282, 'Guest bedroom'),
+    LABEL(225, 282, 'Guest bedroom/Kovu\'s room'),
     VLABEL(302, 150, 'windows'),
   ].join('');
 }
