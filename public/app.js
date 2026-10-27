@@ -1,4 +1,4 @@
-import { planSvg } from './plan.js';
+import { planSvg } from './plan.js?v=8';
 
 const $ = (sel, el = document) => el.querySelector(sel);
 const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
@@ -69,7 +69,9 @@ function inchesText(inches) {
 
 // ---------- API ----------
 
-async function api(path, { method = 'GET', body, form } = {}) {
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function api(path, { method = 'GET', body, form, retried = false } = {}) {
   const headers = {};
   if (state.key) headers.authorization = `Bearer ${state.key}`;
   let payload;
@@ -77,7 +79,8 @@ async function api(path, { method = 'GET', body, form } = {}) {
   else if (body !== undefined) { headers['content-type'] = 'application/json'; payload = JSON.stringify(body); }
   const res = await fetch(`/api${path}`, { method, headers, body: payload });
   const data = await res.json().catch(() => ({}));
-  if (res.status === 401 && path !== '/auth') { stopEditing(true); }
+  if (res.status === 401 && path !== '/auth' && !retried) { await sleep(800); return api(path, { method, body, form, retried: true }); }
+  if (res.status === 401 && path !== '/auth') throw new Error('Passphrase not accepted. Tap Done, then Edit, and enter it again.');
   if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
   return data;
 }
@@ -128,10 +131,9 @@ function roomCard(room, open) {
     <summary><span class="name">${esc(room.name)}</span><span class="meta">${summaryMeta(room)}</span></summary>
     <div class="body">
       ${room.blurb ? `<p class="blurb">${esc(room.blurb)}</p>` : ''}
+      ${state.editing ? `<div class="edit-tools"><label class="add-photo">Add photos<input type="file" accept="image/*" multiple data-upload="${room.id}"></label><button type="button" class="add-measure" data-add="${room.id}">+ Add a measurement</button></div>` : ''}
       <div class="measurements">${room.measurements.map(measurementRow).join('')}</div>
-      ${state.editing ? `<button type="button" class="add-measure" data-add="${room.id}">+ Add a measurement</button>` : ''}
       <div class="photos">${room.photos.map(photoFigure).join('')}</div>
-      ${state.editing ? `<label class="add-photo">+ Add photos<input type="file" accept="image/*" multiple data-upload="${room.id}"></label>` : ''}
       ${notesBlock(room)}
     </div>
   </details>`;
@@ -232,6 +234,7 @@ async function startEditing() {
     return;
   }
   safeSet('editKey', state.key);
+  safeSet('editing', '1');
   state.editing = true;
   document.body.classList.add('editing');
   $('#editbar').hidden = false;
@@ -242,6 +245,7 @@ async function startEditing() {
 function stopEditing(expired = false) {
   if (!state.editing) return;
   state.editing = false;
+  safeSet('editing', null);
   document.body.classList.remove('editing');
   $('#editbar').hidden = true;
   if (expired) { state.key = ''; safeSet('editKey', null); toast('Edit session ended. Enter the passphrase again to keep editing.'); }
@@ -471,6 +475,8 @@ function wire() {
   $('#edit-done').addEventListener('click', () => stopEditing());
 
   const rooms = $('#rooms');
+  document.addEventListener('focusin', (e) => { if (e.target.matches('input, textarea')) $('#editbar').classList.add('typing'); });
+  document.addEventListener('focusout', () => $('#editbar').classList.remove('typing'));
 
   rooms.addEventListener('change', (e) => {
     const t = e.target;
@@ -535,6 +541,7 @@ async function load() {
     renderRooms();
     renderFooter();
     if (location.hash.startsWith('#room-')) openRoom(location.hash.slice(6));
+    if (safeGet('editing') === '1' && state.key) await startEditing();
   } catch (err) {
     $('#rooms').innerHTML = `<p class="loading">Could not load: ${esc(err.message)}</p>`;
   }
