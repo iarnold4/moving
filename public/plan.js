@@ -142,7 +142,7 @@ function upstairs() {
     DOOR(80, 221, 105, 221, 80, 246),                 // guest closet, swings out into the room
 
     LABEL(39, 56, 'Master bath', 'small'),
-    LABEL(190, 56, "Master bedroom/Kovu's room"),
+    LABEL(160, 56, "Master bedroom/Kovu's room"),
     LABEL(93, 93, 'closet', 'small'),
     LABEL(72, 158, 'stairs', 'small'),
     LABEL(72, 168, 'open below', 'small'),
@@ -151,6 +151,20 @@ function upstairs() {
     LABEL(39, 243, 'Guest bath', 'small'),
     LABEL(93, 211, 'closet', 'small'),
     LABEL(213, 240, "Guest bedroom/Kovu's room"),
-    VLABEL(302, 90, 'windows'),
+    VLABEL(302, 180, 'windows'),
+
+    // Planned queen bed (60 x 80), head on the east wall under the north window. The
+    // clearances are from the walkthrough measurements, not the drawing's scale.
+    `<g class="bed">`,
+    `<rect class="frame" x="230" y="26" width="80" height="60" rx="2"/>`,
+    `<rect class="pillow" x="295" y="30" width="11" height="25" rx="3"/>`,
+    `<rect class="pillow" x="295" y="57" width="11" height="25" rx="3"/>`,
+    `<line class="fold" x1="282" y1="26" x2="282" y2="86"/>`,
+    `</g>`,
+    LABEL(256, 57, 'queen/60×80', 'small'),
+    `<line class="dim" x1="262" y1="11" x2="262" y2="25"/>`,
+    LABEL(244, 21, '~19″', 'dim'),
+    `<line class="dim" x1="230" y1="86" x2="241" y2="102"/>`,
+    LABEL(222, 100, '~22″', 'dim'),
   ].join('');
 }
