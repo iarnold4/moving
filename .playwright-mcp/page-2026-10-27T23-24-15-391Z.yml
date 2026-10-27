@@ -1,0 +1,34 @@
+- generic [ref=e2]:
+  - 'heading "Upstairs: queen, head on the east wall (mockup)" [level=3] [ref=e3]'
+  - img "Upstairs floor plan" [ref=e4]:
+    - generic [ref=e5] [cursor=pointer]
+    - generic [ref=e6] [cursor=pointer]
+    - generic [ref=e7] [cursor=pointer]
+    - generic [ref=e8] [cursor=pointer]
+    - generic [ref=e9] [cursor=pointer]
+    - generic [ref=e10] [cursor=pointer]
+    - generic [ref=e11] [cursor=pointer]
+    - generic [ref=e12] [cursor=pointer]
+    - generic [ref=e13] [cursor=pointer]
+    - generic: Master bath
+    - generic: Master bedroom
+    - generic: Kovu's room
+    - generic: closet
+    - generic: stairs
+    - generic: open below
+    - generic: hall
+    - generic: Laundry
+    - generic: Guest bath
+    - generic: closet
+    - generic: Guest bedroom
+    - generic: Kovu's room
+    - generic: windows
+    - generic [ref=e15]:
+      - generic: queen
+      - generic: 60×80
+    - generic: ~19″
+    - generic: ~22″
+    - generic: dresser /
+    - generic: chair
+    - generic: open side
+    - generic: ↑
