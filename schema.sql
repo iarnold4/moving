@@ -76,8 +76,6 @@ INSERT OR IGNORE INTO measurements (room_id, label, sort) VALUES
   ('kitchen', 'Fridge opening, depth', 5),
   ('kitchen', 'Fridge opening, height to cabinet', 6),
   ('kitchen', 'Free wall for a cart or shelf, width', 7),
-  ('kitchen', 'Window, width', 8),
-  ('kitchen', 'Window, height', 9),
 
   ('office', 'Length', 1),
   ('office', 'Width', 2),
