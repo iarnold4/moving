@@ -87,7 +87,24 @@ function downstairs() {
     DOOR(143, 201, 143, 226, 118, 201),                // office, from the living side
     DOOR(123, 196, 98, 196, 123, 221),                 // closet, from the office
     DOOR(300, 290, 266, 290, 300, 256, 'front'),
-    LABEL(236, 284, 'front door', 'door'),
+    LABEL(283, 251, 'front door', 'door'),            // above the swing, clear of the console
+
+    // Planned TV console (63.8 x 15.7, 22.4 tall) against the south wall, centered on the
+    // 10'5" of clear wall between the office corner and the front door trim. The 55" TV
+    // (about 48 wide) hangs on the wall above it, drawn as the thin bar at the back.
+    // The clearances are from the walkthrough measurements, not the drawing's scale.
+    `<g class="console">`,
+    `<rect class="frame" x="172.6" y="274.3" width="63.8" height="15.7" rx="1"/>`,
+    `<line class="shelf" x1="188.6" y1="274.3" x2="188.6" y2="290"/>`,
+    `<line class="shelf" x1="204.5" y1="274.3" x2="204.5" y2="290"/>`,
+    `<line class="shelf" x1="220.5" y1="274.3" x2="220.5" y2="290"/>`,
+    `<rect class="tv" x="180.5" y="284" width="48" height="3"/>`,
+    `</g>`,
+    LABEL(204.5, 258, 'console + 55″ TV/63.8 × 15.7', 'small'),
+    `<line class="dim" x1="143" y1="282" x2="172.6" y2="282"/>`,
+    LABEL(158, 278, '~31″', 'dim'),
+    `<line class="dim" x1="236.4" y1="282" x2="266" y2="282"/>`,
+    LABEL(251, 278, '~31″', 'dim'),
 
     LABEL(78, 60, "Kitchen/Kovu's room"),
     LABEL(187, 32, 'Half bath', 'small'),
