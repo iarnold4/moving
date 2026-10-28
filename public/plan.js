@@ -170,18 +170,22 @@ function upstairs() {
     LABEL(213, 240, "Guest bedroom/Kovu's room"),
     VLABEL(302, 180, 'windows'),
 
-    // Planned queen bed (60 x 80), head on the east wall under the north window. The
-    // clearances are from the walkthrough measurements, not the drawing's scale.
+    // Planned queen bed (60 x 80), head on the east wall under the north window. The band
+    // is 99 wide, so a 60 bed leaves 39 to split: it sits ~18 off the north wall (room for a
+    // nightstand) which leaves ~21 between its south side and the laundry wall corner, the
+    // pinch point on the way into the east leg. The exact split is a judgment call to be
+    // made in person. The clearances are from the walkthrough measurements, not the
+    // drawing's scale.
     `<g class="bed">`,
-    `<rect class="frame" x="230" y="26" width="80" height="60" rx="2"/>`,
-    `<rect class="pillow" x="295" y="30" width="11" height="25" rx="3"/>`,
-    `<rect class="pillow" x="295" y="57" width="11" height="25" rx="3"/>`,
-    `<line class="fold" x1="282" y1="26" x2="282" y2="86"/>`,
+    `<rect class="frame" x="230" y="25" width="80" height="60" rx="2"/>`,
+    `<rect class="pillow" x="295" y="29" width="11" height="25" rx="3"/>`,
+    `<rect class="pillow" x="295" y="56" width="11" height="25" rx="3"/>`,
+    `<line class="fold" x1="282" y1="25" x2="282" y2="85"/>`,
     `</g>`,
-    LABEL(256, 57, 'queen/60×80', 'small'),
-    `<line class="dim" x1="262" y1="11" x2="262" y2="25"/>`,
-    LABEL(244, 21, '~19″', 'dim'),
-    `<line class="dim" x1="230" y1="86" x2="241" y2="102"/>`,
-    LABEL(222, 100, '~22″', 'dim'),
+    LABEL(256, 56, 'queen/60×80', 'small'),
+    `<line class="dim" x1="262" y1="11" x2="262" y2="24"/>`,
+    LABEL(244, 21, '~18″', 'dim'),
+    `<line class="dim" x1="236" y1="85" x2="236" y2="102"/>`,
+    LABEL(224, 97, '~21″', 'dim'),
   ].join('');
 }
