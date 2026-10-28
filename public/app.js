@@ -112,7 +112,7 @@ function renderPlans() {
 
 function renderRooms() {
   const openIds = new Set($$('details.room-card[open]').map((d) => d.dataset.room));
-  const floors = [[1, 'Downstairs'], [2, 'Upstairs']];
+  const floors = [[1, 'Downstairs'], [2, 'Upstairs'], [3, 'Furniture']];
   $('#rooms').innerHTML = floors.map(([floor, title]) =>
     `<h2 class="floor-h">${title}</h2>` +
     state.rooms.filter((r) => r.floor === floor).map((r) => roomCard(r, openIds.has(r.id))).join(''),
@@ -194,7 +194,7 @@ function openRoom(id) {
   card.scrollIntoView({ behavior: 'smooth', block: 'start' });
   card.classList.add('flash');
   setTimeout(() => card.classList.remove('flash'), 1200);
-  $$('.plans .room.selected').forEach((r) => r.classList.remove('selected'));
+  $$('.plans [data-room].selected').forEach((r) => r.classList.remove('selected'));
   $$(`.plans [data-room="${id}"]`).forEach((r) => r.classList.add('selected'));
 }
 
@@ -432,7 +432,7 @@ function stepLightbox(delta) {
 function asText() {
   const lines = ['The Apartment, measurements'];
   if (state.updated) lines.push(`as of ${new Date(state.updated).toLocaleDateString()}`);
-  for (const [floor, title] of [[1, 'DOWNSTAIRS'], [2, 'UPSTAIRS']]) {
+  for (const [floor, title] of [[1, 'DOWNSTAIRS'], [2, 'UPSTAIRS'], [3, 'FURNITURE']]) {
     lines.push('', title);
     for (const room of state.rooms.filter((r) => r.floor === floor)) {
       lines.push('', room.name);

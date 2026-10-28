@@ -59,11 +59,14 @@ figure svg { width: 100%; height: auto; display: block; }
 .flow-head { fill: var(--ok); pointer-events: none; }
 .tread.faint { opacity: 0.2; }
 .room.void { fill: var(--bg); }
-.bed .frame, .console .frame { fill: var(--door); fill-opacity: 0.13; stroke: var(--door); stroke-width: 1.5; stroke-dasharray: 4 2; pointer-events: none; }
-.bed .pillow { fill: var(--card); stroke: var(--door); stroke-width: 1; pointer-events: none; }
+/* furniture outlines: tappable, they open the Furniture card */
+.bed, .console { cursor: pointer; }
+.bed .frame, .console .frame { fill: var(--door); fill-opacity: 0.13; stroke: var(--door); stroke-width: 1.5; stroke-dasharray: 4 2; transition: fill-opacity 0.15s; }
+.bed:hover .frame, .console:hover .frame, .bed.selected .frame, .console.selected .frame { fill-opacity: 0.3; }
+.bed .pillow { fill: var(--card); stroke: var(--door); stroke-width: 1; }
 .bed .fold { stroke: var(--door); stroke-width: 1; opacity: 0.5; }
-.console .shelf { stroke: var(--door); stroke-width: 1; opacity: 0.5; pointer-events: none; }
-.console .tv { fill: var(--door); stroke: none; pointer-events: none; }
+.console .shelf { stroke: var(--door); stroke-width: 1; opacity: 0.5; }
+.console .tv { fill: var(--door); stroke: none; }
 .dim { stroke: var(--ok); stroke-width: 1.2; stroke-dasharray: 2 2; pointer-events: none; }
 .label.dim { stroke: none; font-size: 9px; fill: var(--ok); font-weight: 600; }
 .fixture { fill: none; stroke: var(--muted); stroke-width: 1; opacity: 0.7; pointer-events: none; }

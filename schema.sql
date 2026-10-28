@@ -34,8 +34,9 @@ CREATE TABLE IF NOT EXISTS photos (
 CREATE INDEX IF NOT EXISTS measurements_room ON measurements(room_id, sort);
 CREATE INDEX IF NOT EXISTS photos_room ON photos(room_id, sort);
 
--- Rooms. Floor 1 = downstairs, 2 = upstairs. The windows face east, so blurbs use
--- compass directions. Re-running updates names and blurbs; notes are left alone.
+-- Rooms. Floor 1 = downstairs, 2 = upstairs, 3 = furniture (not a floor: a group for the
+-- things going in, drawn as dashed outlines on the plans). The windows face east, so
+-- blurbs use compass directions. Re-running updates names and blurbs; notes are left alone.
 INSERT INTO rooms (id, name, floor, sort, blurb) VALUES
   ('living',   'Living room',    1, 1, 'South-east corner of downstairs, along the east windows. The front door is in its south-east corner and swings in along the window wall.'),
   ('dining',   'Dining area',    1, 2, 'Open floor between the kitchen and the east windows, north of the living room.'),
@@ -49,7 +50,8 @@ INSERT INTO rooms (id, name, floor, sort, blurb) VALUES
   ('bed2',     'Guest bedroom',  2, 3, 'South end upstairs, one east window. Its closet and the guest bath open off it.'),
   ('bath2',    'Guest bath',     2, 4, 'South-west corner upstairs, entered from the guest bedroom.'),
   ('laundry',  'Laundry',        2, 5, 'Center of the upstairs, double doors opening into the hall.'),
-  ('hall',     'Hall',           2, 6, 'Short hall at the top of the stairs: master door at the north end, laundry on the east side, guest room door at the south end.')
+  ('hall',     'Hall',           2, 6, 'Short hall at the top of the stairs: master door at the north end, laundry on the east side, guest room door at the south end.'),
+  ('furniture', 'Furniture',     3, 1, 'Things going into the apartment, drawn as dashed outlines on the plans. These are the sizes the plans use.')
 ON CONFLICT(id) DO UPDATE SET name = excluded.name, floor = excluded.floor, sort = excluded.sort, blurb = excluded.blurb;
 
 -- Measurement checklist. Empty rows to fill in during the walkthrough; more can be added on the site.
@@ -155,3 +157,12 @@ INSERT OR IGNORE INTO measurements (room_id, label, sort) VALUES
   ('hall', 'Width', 1),
   ('hall', 'Length', 2),
   ('hall', 'Ceiling height', 3);
+
+-- Furniture sizes come from the product specs, so they are seeded with values.
+INSERT OR IGNORE INTO measurements (room_id, label, raw, inches, note, sort) VALUES
+  ('furniture', 'Queen bed, width',   '60"',   60,   'Master bedroom, head on the east wall under the north window', 1),
+  ('furniture', 'Queen bed, length',  '80"',   80,   '', 2),
+  ('furniture', 'TV console, width',  '63.8"', 63.8, 'Living room, south wall, centered between the office corner and the front door', 3),
+  ('furniture', 'TV console, depth',  '15.7"', 15.7, 'Internal depth 14.8"', 4),
+  ('furniture', 'TV console, height', '22.4"', 22.4, '7.1" legs; shelf openings 12.5" and 13.6" tall', 5),
+  ('furniture', 'TV, diagonal',       '55"',   55,   'Maybe 60". A 55" 16:9 screen is about 48" wide and 27" tall. Hangs above the console.', 6);

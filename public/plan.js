@@ -93,14 +93,14 @@ function downstairs() {
     // 10'5" of clear wall between the office corner and the front door trim. The 55" TV
     // (about 48 wide) hangs on the wall above it, drawn as the thin bar at the back.
     // The clearances are from the walkthrough measurements, not the drawing's scale.
-    `<g class="console">`,
+    // Sizes live on the Furniture card, which tapping the outline opens.
+    `<g class="console" data-room="furniture">`,
     `<rect class="frame" x="172.6" y="274.3" width="63.8" height="15.7" rx="1"/>`,
     `<line class="shelf" x1="188.6" y1="274.3" x2="188.6" y2="290"/>`,
     `<line class="shelf" x1="204.5" y1="274.3" x2="204.5" y2="290"/>`,
     `<line class="shelf" x1="220.5" y1="274.3" x2="220.5" y2="290"/>`,
     `<rect class="tv" x="180.5" y="284" width="48" height="3"/>`,
     `</g>`,
-    LABEL(204.5, 258, 'console + 55″ TV/63.8 × 15.7', 'small'),
     `<line class="dim" x1="143" y1="282" x2="172.6" y2="282"/>`,
     LABEL(158, 278, '~31″', 'dim'),
     `<line class="dim" x1="236.4" y1="282" x2="266" y2="282"/>`,
@@ -175,14 +175,13 @@ function upstairs() {
     // nightstand) which leaves ~21 between its south side and the laundry wall corner, the
     // pinch point on the way into the east leg. The exact split is a judgment call to be
     // made in person. The clearances are from the walkthrough measurements, not the
-    // drawing's scale.
-    `<g class="bed">`,
+    // drawing's scale. Sizes live on the Furniture card, which tapping the outline opens.
+    `<g class="bed" data-room="furniture">`,
     `<rect class="frame" x="230" y="25" width="80" height="60" rx="2"/>`,
     `<rect class="pillow" x="295" y="29" width="11" height="25" rx="3"/>`,
     `<rect class="pillow" x="295" y="56" width="11" height="25" rx="3"/>`,
     `<line class="fold" x1="282" y1="25" x2="282" y2="85"/>`,
     `</g>`,
-    LABEL(256, 56, 'queen/60×80', 'small'),
     `<line class="dim" x1="262" y1="11" x2="262" y2="24"/>`,
     LABEL(244, 21, '~18″', 'dim'),
     `<line class="dim" x1="236" y1="85" x2="236" y2="102"/>`,
