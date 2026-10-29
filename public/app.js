@@ -1,4 +1,4 @@
-import { planSvg } from './plan.js?v=11';
+import { planSvg } from './plan.js?v=13';
 
 const $ = (sel, el = document) => el.querySelector(sel);
 const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];

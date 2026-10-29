@@ -144,17 +144,17 @@ function downstairs() {
 }
 
 function upstairs() {
-  const well = 'M10,102 H144 V196 H10 Z';
+  const well = 'M10,102 H144 V188 H10 Z';
   return [
     ROOM('bath1', 10, 10, 59, 92),                    // 59 x 92
-    AREA('bed1', 'M69,10 H310 V196 H241 V102 H117 V77 H69 Z'), // top band, east leg 69 wide
+    AREA('bed1', 'M69,10 H310 V188 H241 V102 H117 V77 H69 Z'), // top band, east leg 69 wide
     ROOM('bed1', 69, 77, 48, 25),                     // closet 48 x 25, under the band beside the bath
     AREA('stairs', well, 'void'),
-    ROOM('hall', 144, 102, 63, 94),                   // 63 wide
-    ROOM('laundry', 207, 102, 34, 94),                // 34 deep
-    ROOM('bath2', 10, 196, 59, 94),                   // same as the master bath
-    ROOM('bed2', 69, 196, 48, 25),                    // closet 48 x 25
-    AREA('bed2', 'M117,196 H310 V290 H69 V221 H117 Z'),
+    ROOM('hall', 144, 102, 63, 86),                   // 63 wide
+    ROOM('laundry', 207, 102, 34, 86),                // 34 deep
+    ROOM('bath2', 10, 188, 59, 102),                  // same as the master bath; the hall/guest wall sits at 188 so the guest room is the measured 102 deep
+    ROOM('bed2', 69, 188, 48, 25),                    // closet 48 x 25
+    AREA('bed2', 'M117,188 H310 V290 H69 V213 H117 Z'),
 
     // the stairs below, seen through the well; the top flight lands in the hall
     `<clipPath id="well"><path d="${well}"/></clipPath>`,
@@ -166,10 +166,10 @@ function upstairs() {
     W('M69,10 V102 M10,102 H241'),                    // master bath, then one line under the master
     W('M69,77 H117 V102', 'thin'),                    // master closet
     W('M144,102 V160', 'thin'),                       // hall side; open below it where the stairs land
-    W('M207,102 V196 M241,102 V196'),                 // laundry
-    W('M10,196 H310'),                                // stairwell and hall / guest side
-    W('M69,196 V290'),                                // guest bath
-    W('M69,196 V221 H117 V196', 'thin'),              // guest closet
+    W('M207,102 V188 M241,102 V188'),                 // laundry
+    W('M10,188 H310'),                                // stairwell and hall / guest side
+    W('M69,188 V290'),                                // guest bath
+    W('M69,188 V213 H117 V188', 'thin'),              // guest closet
 
     WIN(310, 33, 310, 96), WIN(310, 119, 310, 182), WIN(310, 204, 310, 267),   // same three windows as downstairs
 
@@ -178,9 +178,9 @@ function upstairs() {
     DOOR(150, 102, 172, 102, 150, 80),                // hall to master
     DOOR(207, 118, 207, 146, 179, 118),               // laundry, double doors swinging out into the hall
     DOOR(207, 174, 207, 146, 179, 174),
-    DOOR(150, 196, 172, 196, 150, 218),               // hall to guest
+    DOOR(150, 188, 172, 188, 150, 210),               // hall to guest
     DOOR(69, 230, 69, 255, 44, 230),                  // guest room to guest bath
-    DOOR(80, 221, 105, 221, 80, 246),                 // guest closet, swings out into the room
+    DOOR(80, 213, 105, 213, 80, 238),                 // guest closet, swings out into the room
 
     LABEL(39, 56, 'Master bath', 'small'),
     LABEL(160, 56, "Master bedroom/Kovu's room"),
@@ -190,9 +190,9 @@ function upstairs() {
     LABEL(160, 152, 'hall', 'small'),
     VLABEL(226, 152, 'Laundry'),
     LABEL(39, 243, 'Guest bath', 'small'),
-    LABEL(93, 211, 'closet', 'small'),
-    LABEL(213, 240, "Guest bedroom/Kovu's room"),
-    VLABEL(302, 180, 'windows'),
+    LABEL(93, 203, 'closet', 'small'),
+    LABEL(173, 240, "Guest bedroom/Kovu's room"),
+    VLABEL(302, 160, 'windows'),                        // above the guest bed
 
     // Planned queen bed (60 x 80), head on the east wall under the north window. The band
     // is 99 wide, so a 60 bed leaves 39 to split: it sits ~18 off the north wall (room for a
@@ -210,5 +210,19 @@ function upstairs() {
     LABEL(244, 21, '~18″', 'dim'),
     `<line class="dim" x1="236" y1="85" x2="236" y2="102"/>`,
     LABEL(224, 97, '~21″', 'dim'),
+
+    // Guest queen (60 x 80), head on the south wall and tight to the brick, so the window
+    // runs alongside the whole bed: the sill is about 21 above the mattress, a window seat
+    // for the dog, who is the usual occupant. 22 is left between the foot and the hall wall;
+    // the west side is open and takes the one nightstand. Head south keeps the sleeper a bed
+    // length further from the master and the laundry than head north would.
+    `<g class="furn bed" data-room="furniture">`,
+    `<rect class="frame" x="250" y="210" width="60" height="80" rx="2"/>`,
+    `<rect class="pillow" x="254" y="275" width="25" height="11" rx="3"/>`,
+    `<rect class="pillow" x="281" y="275" width="25" height="11" rx="3"/>`,
+    `<line class="part" x1="250" y1="262" x2="310" y2="262"/>`,
+    `</g>`,
+    `<line class="dim" x1="280" y1="188" x2="280" y2="210"/>`,
+    LABEL(266, 203, '~22″', 'dim'),
   ].join('');
 }
