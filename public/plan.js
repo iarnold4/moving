@@ -61,8 +61,8 @@ function downstairs() {
     ROOM('nook', 230, 10, 80, 41),                     // 72 wide, 41 deep
     ROOM('stairs', 10, 101, 128, 95),
     ROOM('office', 10, 196, 133, 94),                  // 121 x 97
-    AREA('dining', 'M144,47 H230 V51 H310 V165 H138 V101 H144 Z', 'open'),
-    ROOM('living', 143, 165, 167, 125, 'open'),       // windows to office wall 170
+    AREA('dining', 'M144,47 H230 V51 H310 V157 H138 V101 H144 Z', 'open'),
+    ROOM('living', 143, 157, 167, 133, 'open'),       // windows to office wall 170; starts at the couch
 
     FIX(12, 12, 108, 16),           // counter along the north wall
     FIX(12, 28, 16, 73),            // counter along the west wall, to the south wall
@@ -79,32 +79,56 @@ function downstairs() {
     W('M91,160 H138 M91,160 V196', 'thin'),            // closet under the top flight, 47 x 36
     W('M10,196 H143'),                                 // stair block / office
     W('M143,196 V290'),                                // office wall, with interior windows
-    WIN(143, 222, 143, 250), WIN(143, 258, 143, 284),
+    WIN(143, 236, 143, 258), WIN(143, 264, 143, 286),   // interior windows, between the office door and the south wall
 
     WIN(310, 33, 310, 96), WIN(310, 119, 310, 182), WIN(310, 204, 310, 267),   // three 63-wide windows, equal gaps
 
     DOOR(200, 47, 182, 47, 200, 65),                   // half bath, opens out
-    DOOR(143, 201, 143, 226, 118, 201),                // office, from the living side
+    DOOR(143, 202, 143, 232, 113, 202),                // office, from the living side; south jamb 58 from the south wall
     DOOR(123, 196, 98, 196, 123, 221),                 // closet, from the office
     DOOR(300, 290, 266, 290, 300, 256, 'front'),
     LABEL(283, 251, 'front door', 'door'),            // above the swing, clear of the console
 
-    // Planned TV console (63.8 x 15.7, 22.4 tall) against the south wall, centered on the
-    // 10'5" of clear wall between the office corner and the front door trim. The 55" TV
-    // (about 48 wide) hangs on the wall above it, drawn as the thin bar at the back.
-    // The clearances are from the walkthrough measurements, not the drawing's scale.
-    // Sizes live on the Furniture card, which tapping the outline opens.
-    `<g class="console" data-room="furniture">`,
-    `<rect class="frame" x="172.6" y="274.3" width="63.8" height="15.7" rx="1"/>`,
-    `<line class="shelf" x1="188.6" y1="274.3" x2="188.6" y2="290"/>`,
-    `<line class="shelf" x1="204.5" y1="274.3" x2="204.5" y2="290"/>`,
-    `<line class="shelf" x1="220.5" y1="274.3" x2="220.5" y2="290"/>`,
-    `<rect class="tv" x="180.5" y="284" width="48" height="3"/>`,
+    // Furniture, drawn at the measured sizes. Sizes live on the Furniture card, which
+    // tapping an outline opens. The clearances are from the walkthrough measurements, not
+    // the drawing's scale.
+    //
+    // The living room is 170 between the office wall and the brick, and two paths cross
+    // it at the couch's depth: the lane from the front door north along the windows (36
+    // minimum) and the way from the dining side to the office door along the office wall
+    // (30 minimum). That leaves 104 for seating, so the 87 couch sits alone in the band
+    // and the 38 x 40 chair backs onto the office wall just south of the office door,
+    // facing east: the TV is about 35 degrees to its right at 6', and it gets pulled
+    // forward and turned when it has to be a TV seat. Its front stops 13 short of the
+    // coffee table. To keep it off the console's left shelf the console (63.8 x 15.7,
+    // 22.4 tall) and the TV axis sit 12.5 east of the center of the clear wall: 42 from
+    // the office wall, 17 from the front door trim. The 55" TV (about 48 wide) hangs above
+    // the console, drawn as the thin bar at the back. Couch back 129 from the TV wall, so
+    // eyes are about 9' from the screen; the 41 x 41 coffee table is 18 off the couch and
+    // 14 off the console.
+    `<g class="furn console" data-room="furniture">`,
+    `<rect class="frame" x="185.1" y="274.3" width="63.8" height="15.7" rx="1"/>`,
+    `<path class="part" d="M201.1,274.3 V290 M217,274.3 V290 M233,274.3 V290"/>`,
+    `<rect class="tv" x="193" y="284" width="48" height="3"/>`,
     `</g>`,
-    `<line class="dim" x1="143" y1="282" x2="172.6" y2="282"/>`,
-    LABEL(158, 278, '~31″', 'dim'),
-    `<line class="dim" x1="236.4" y1="282" x2="266" y2="282"/>`,
-    LABEL(251, 278, '~31″', 'dim'),
+    `<g class="furn couch" data-room="furniture">`,
+    `<rect class="frame" x="173.5" y="161" width="87" height="40" rx="2"/>`,
+    `<path class="part" d="M180.5,161 V201 M253.5,161 V201 M180.5,171 H253.5 M204.8,171 V201 M229.2,171 V201"/>`,
+    `</g>`,
+    `<g class="furn ctable" data-room="furniture">`,
+    `<rect class="frame" x="196.5" y="219" width="41" height="41" rx="1"/>`,
+    `<rect class="part" x="201.5" y="224" width="31" height="31"/>`,
+    `</g>`,
+    `<g class="furn chair" data-room="furniture">`,
+    `<rect class="frame" x="143" y="232" width="40" height="38" rx="2"/>`,
+    `<path class="part" d="M143,238 H183 M143,264 H183 M153,238 V264"/>`,
+    `</g>`,
+    `<line class="dim" x1="143" y1="181" x2="173.5" y2="181"/>`,
+    LABEL(158, 177, '~30″', 'dim'),
+    `<line class="dim" x1="260.5" y1="181" x2="310" y2="181"/>`,
+    LABEL(285, 177, '~50″', 'dim'),
+    `<line class="dim" x1="248.9" y1="282" x2="266" y2="282"/>`,
+    LABEL(257.5, 271, '~17″', 'dim'),
 
     LABEL(78, 60, "Kitchen/Kovu's room"),
     LABEL(187, 32, 'Half bath', 'small'),
@@ -114,7 +138,7 @@ function downstairs() {
     LABEL(114, 168, 'closet below', 'small'),
     LABEL(76, 246, "Office/Kovu's room"),
     LABEL(227, 110, "Dining/Kovu's room"),
-    LABEL(226, 231, "Living room/Kovu's room"),
+    LABEL(217, 150, "Living room/Kovu's room"),       // above the couch; the table sits where it was
     VLABEL(302, 150, 'windows'),
   ].join('');
 }
@@ -176,11 +200,11 @@ function upstairs() {
     // pinch point on the way into the east leg. The exact split is a judgment call to be
     // made in person. The clearances are from the walkthrough measurements, not the
     // drawing's scale. Sizes live on the Furniture card, which tapping the outline opens.
-    `<g class="bed" data-room="furniture">`,
+    `<g class="furn bed" data-room="furniture">`,
     `<rect class="frame" x="230" y="25" width="80" height="60" rx="2"/>`,
     `<rect class="pillow" x="295" y="29" width="11" height="25" rx="3"/>`,
     `<rect class="pillow" x="295" y="56" width="11" height="25" rx="3"/>`,
-    `<line class="fold" x1="282" y1="25" x2="282" y2="85"/>`,
+    `<line class="part" x1="282" y1="25" x2="282" y2="85"/>`,
     `</g>`,
     `<line class="dim" x1="262" y1="11" x2="262" y2="24"/>`,
     LABEL(244, 21, '~18″', 'dim'),

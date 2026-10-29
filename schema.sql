@@ -158,11 +158,22 @@ INSERT OR IGNORE INTO measurements (room_id, label, sort) VALUES
   ('hall', 'Length', 2),
   ('hall', 'Ceiling height', 3);
 
--- Furniture sizes come from the product specs, so they are seeded with values.
+-- Furniture sizes come from product specs or a tape measure, so they are seeded with values.
 INSERT OR IGNORE INTO measurements (room_id, label, raw, inches, note, sort) VALUES
   ('furniture', 'Queen bed, width',   '60"',   60,   'Master bedroom, head on the east wall under the north window', 1),
   ('furniture', 'Queen bed, length',  '80"',   80,   '', 2),
-  ('furniture', 'TV console, width',  '63.8"', 63.8, 'Living room, south wall, centered between the office corner and the front door', 3),
+  ('furniture', 'TV console, width',  '63.8"', 63.8, 'Living room, south wall, 42" from the office wall and 17" from the front door trim. The pocket west of it holds the router table', 3),
   ('furniture', 'TV console, depth',  '15.7"', 15.7, 'Internal depth 14.8"', 4),
   ('furniture', 'TV console, height', '22.4"', 22.4, '7.1" legs; shelf openings 12.5" and 13.6" tall', 5),
-  ('furniture', 'TV, diagonal',       '55"',   55,   'Maybe 60". A 55" 16:9 screen is about 48" wide and 27" tall. Hangs above the console.', 6);
+  ('furniture', 'TV, diagonal',       '55"',   55,   'Maybe 60". A 55" 16:9 screen is about 48" wide and 27" tall. Hangs above the console.', 6),
+  ('furniture', 'Couch, width',          '87"', 87, 'Living room, facing the TV and centered on it, back 129" from the south wall', 7),
+  ('furniture', 'Couch, depth',          '40"', 40, '', 8),
+  ('furniture', 'Chair, width',          '38"', 38, 'Living room, backed onto the office wall just south of the office door, facing east. Pulls forward for movies', 9),
+  ('furniture', 'Chair, depth',          '40"', 40, '', 10),
+  ('furniture', 'Coffee table, width',   '41"', 41, 'Square. Living room, centered on the couch, 18" off it', 11),
+  ('furniture', 'Coffee table, depth',   '41"', 41, '', 12),
+  ('furniture', 'Desk, width',           '63"', 63, 'Office', 13),
+  ('furniture', 'Desk, depth',           '32"', 32, '', 14),
+  ('furniture', 'Bench, length',         '44"', 44, 'Carved back and arms', 15),
+  ('furniture', 'Bench, depth',          '21"', 21, '', 16),
+  ('furniture', 'Bench, armrest height', '25"', 25, 'Floor to the top of the arm', 17);
