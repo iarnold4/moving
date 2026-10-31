@@ -66,7 +66,7 @@ export const LAYOUTS = {
       },
       {
         id: 'floating', name: 'Floating desk facing the windows', draw: officeFloating,
-        note: 'Desk pulled about 18″ off the interior windows and facing them, so you look out over the living room with the monitors in the lower part of the view. The whole west end of the room is behind the chair. From the door, go west along the 34″ lane north of the desk and turn south behind it; the lane is tight while the closet door stands open. The loveseat does not fit with this desk: anywhere it goes, it cuts the chair off from the door.',
+        note: 'Desk pulled about 30″ off the west wall and flush with the south wall, chair between it and the wall, so you look east across the room at the interior windows with the monitors in the lower part of the view. From the door, go west along the 34″ lane north of the desk and turn south behind it; the lane is tight while the closet door stands open. The east half of the room stays open. The loveseat does not fit with this desk: no wall east of the desk is long enough, and floated it blocks the door.',
       },
     ],
   },
@@ -76,15 +76,15 @@ export const LAYOUTS = {
     options: [
       {
         id: 'south', name: 'Head on the south wall', draw: guestSouth,
-        note: 'Head on the south wall, tight to the brick, so the window runs alongside the whole bed; the sill is about 21″ above the mattress, a window seat for the dog. 22″ between the foot and the hall wall. The west side is open and takes the nightstand. Head south keeps the sleeper a bed length further from the master and the laundry.',
+        note: 'Head on the south wall, tight to the brick, so the window runs alongside the whole bed; the sill is about 21″ above the mattress, a window seat for Kovu. 22″ between the foot and the hall wall. The west side is open and takes the nightstand. Head south keeps the sleeper a bed length further from the master and the laundry.',
       },
       {
         id: 'north', name: 'Head on the north wall', draw: guestNorth,
-        note: 'Same spot, flipped: head against the hall wall, foot toward the south, with 22″ at the foot. The window still runs alongside the bed. The sleeper faces the door, but their head is against the hall and next to the laundry, so it is the noisier choice.',
+        note: 'Same spot, flipped: head against the hall wall, foot toward the south, with 22″ at the foot. The window still runs alongside the bed, so Kovu gets his window spot. The sleeper faces the door, but their head is against the hall and next to the laundry, so it is the noisier choice.',
       },
       {
         id: 'east', name: 'Head under the window, like the master', draw: guestEast,
-        note: 'Like the master: head on the brick under the window, bed lying east–west across the room. About 21″ on each side to the north and south walls, so both sides are reachable but narrow, and only the west end of the room stays open. A headboard taller than the 46″ sill blocks the bottom of the window.',
+        note: 'Like the master: head on the brick under the window, bed lying east–west across the room. About 21″ on each side to the north and south walls, so both sides are reachable but narrow, and only the west end of the room stays open. A headboard taller than the 46″ sill blocks the bottom of the window. Probably best for people, but Kovu loses his window seat.',
       },
     ],
   },
@@ -130,22 +130,22 @@ function officeWest() {
   ].join('');
 }
 
-// Desk pulled 18 off the interior windows and facing them, pushed to the south wall so it
-// stays out of the office door's swing (its north-east corner is 33 from the hinge, the
-// door 30). Chair west of it with the rest of the room behind. The way in is the 34 lane
-// north of the desk, then south behind it. The loveseat has no place here: anywhere it
-// fits, it walls the chair off from the door.
+// Desk pulled 30 off the west wall and flush with the south wall, chair between it and the
+// wall facing east, so the view from the chair is across the room to the interior windows,
+// which run along the south 58 of the east wall. The way in is the 34 lane north of the
+// desk, then south behind it. The east half of the room stays open. The loveseat has no
+// place here: no stretch of wall east of the desk is 68 long, and floated it blocks the door.
 function officeFloating() {
   return [
     `<g class="furn desk" data-room="furniture">`,
-    `<rect class="frame" x="${OX(71)}" y="${OY(34)}" width="${OW(32)}" height="${OH(63)}" rx="1"/>`,
-    `<rect class="tv" x="${OX(99.5)}" y="${OY(51)}" width="${OW(2)}" height="${OH(29)}"/>`,  // monitors, on the window side
+    `<rect class="frame" x="${OX(30)}" y="${OY(34)}" width="${OW(32)}" height="${OH(63)}" rx="1"/>`,
+    `<rect class="tv" x="${OX(58.5)}" y="${OY(51)}" width="${OW(2)}" height="${OH(29)}"/>`,  // monitors, on the room side
     `</g>`,
-    FIX(OX(45), OY(53), OW(22), OH(24), 3),                                                   // desk chair
-    `<line class="dim" x1="${OX(103)}" y1="${OY(70)}" x2="${OX(121)}" y2="${OY(70)}"/>`,
-    LABEL(OX(112), OY(66), '~18″', 'dim'),
-    `<line class="dim" x1="${OX(66)}" y1="${OY(0)}" x2="${OX(66)}" y2="${OY(34)}"/>`,
-    LABEL(OX(74), OY(14), '~34″', 'dim'),
+    FIX(OX(4), OY(53), OW(22), OH(24), 3),                                                    // desk chair, back to the west wall
+    `<line class="dim" x1="${OX(0)}" y1="${OY(45)}" x2="${OX(30)}" y2="${OY(45)}"/>`,
+    LABEL(OX(15), OY(41), '~30″', 'dim'),
+    `<line class="dim" x1="${OX(40)}" y1="${OY(0)}" x2="${OX(40)}" y2="${OY(34)}"/>`,
+    LABEL(OX(31), OY(14), '~34″', 'dim'),
   ].join('');
 }
 
