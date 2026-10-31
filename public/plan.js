@@ -62,11 +62,11 @@ export const LAYOUTS = {
     options: [
       {
         id: 'west', name: 'Desk on the west wall, with the loveseat', draw: officeWest,
-        note: 'Desk flush in the north-west corner with the chair facing the wall; loveseat in the south-east corner, its arm beside the interior windows. From the door it is a straight walk of 30″ or more to the chair, and about 35″ of open floor in front of the loveseat. About 21″ separates the desk from the loveseat, so nothing touches. You work with your back to the windows.',
+        note: 'Desk flush in the north-west corner with the chair facing the wall; loveseat in the south-east corner, its arm beside the interior windows. From the door it is a straight walk of 30″ or more to the chair, and about 35″ of open floor in front of the loveseat. About 21″ separates the desk from the loveseat, so nothing touches. Work view is a wall. Only layout that keeps loveseat.',
       },
       {
         id: 'floating', name: 'Floating desk facing the windows', draw: officeFloating,
-        note: 'Desk pulled about 30″ off the west wall and flush with the south wall, chair between it and the wall, so you look east across the room at the interior windows with the monitors in the lower part of the view. From the door, go west along the 34″ lane north of the desk and turn south behind it; the lane is tight while the closet door stands open. The east half of the room stays open. The loveseat does not fit with this desk: no wall east of the desk is long enough, and floated it blocks the door.',
+        note: 'Desk pulled about 30″ off the west wall and flush with the south wall, chair between it and the wall, so work view is east across the room. From the door. The east half of the room stays open. The loveseat gets junked in this layout.',
       },
     ],
   },
