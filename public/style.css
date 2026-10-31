@@ -65,10 +65,24 @@ figure svg { width: 100%; height: auto; display: block; }
 .furn:hover .frame, .furn.selected .frame { fill-opacity: 0.3; }
 .furn .part { fill: none; stroke: var(--door); stroke-width: 1; opacity: 0.5; }   /* arms, seams, shelves, insets */
 .bed .pillow { fill: var(--card); stroke: var(--door); stroke-width: 1; }
-.console .tv { fill: var(--door); stroke: none; }
+.furn .tv { fill: var(--door); stroke: none; }                                   /* a screen: the TV, the monitors */
+.alt { cursor: pointer; }                                                         /* marker: this room has more than one layout */
+.alt rect { fill: var(--card); stroke: var(--accent); stroke-width: 1.2; transition: fill 0.15s; }
+.alt:hover rect { fill: var(--room-hot); }
 .dim { stroke: var(--ok); stroke-width: 1.2; stroke-dasharray: 2 2; pointer-events: none; }
 .label.dim { stroke: none; font-size: 9px; fill: var(--ok); font-weight: 600; }
 .fixture { fill: none; stroke: var(--muted); stroke-width: 1; opacity: 0.7; pointer-events: none; }
+
+/* layout chooser, under the plan of a room with more than one arrangement */
+.chooser { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 14px; }
+.chooser-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.chooser-name { font-weight: 600; }
+.chooser-close { margin-left: auto; border: 0; background: none; color: var(--muted); font-size: 20px; line-height: 1; padding: 0 4px; }
+.chooser-opts { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 6px; }
+.chooser-opts .opt { border-radius: 999px; padding: 6px 12px; font-size: 14px; text-align: left; }
+.chooser-opts .opt[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.chooser-note { margin: 0; color: var(--muted); font-size: 13px; }
+.layouts { margin: 0 0 8px; font-size: 14px; color: var(--muted); }
 
 /* room cards */
 #rooms { margin-top: 22px; display: grid; gap: 10px; }
@@ -147,7 +161,7 @@ body.editing { padding-bottom: 80px; }
 #lightbox .close { top: 10px; right: 10px; width: 40px; height: 40px; line-height: 40px; }
 
 @media print {
-  header .tools, footer, #editbar, .add-measure, .add-photo, .photo .del { display: none !important; }
+  header .tools, footer, #editbar, .add-measure, .add-photo, .photo .del, .chooser-close, .layouts .link { display: none !important; }
   details.room-card { break-inside: avoid; }
   .body { display: block !important; }
 }

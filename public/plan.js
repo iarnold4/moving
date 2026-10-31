@@ -49,12 +49,160 @@ const stairTreads = (cls = 'tread') => [
   treads(46, 160, 92, 36, 8, false, cls),
 ].join('');
 
-export function planSvg(floor) {
-  const body = floor === 1 ? downstairs() : upstairs();
+// ---- furniture layouts ----
+//
+// Rooms with more than one arrangement. The page shows a chooser for these and redraws the
+// plan: planSvg(floor, choices) takes { roomId: layoutId }, and the first option is the
+// default. Each option draws its own furniture. Clearances in the notes come from the
+// walkthrough measurements, not the drawing's scale.
+export const LAYOUTS = {
+  office: {
+    floor: 1,
+    name: 'Office',
+    options: [
+      {
+        id: 'west', name: 'Desk on the west wall, with the loveseat', draw: officeWest,
+        note: 'Desk flush in the north-west corner with the chair facing the wall; loveseat in the south-east corner, its arm beside the interior windows. From the door it is a straight walk of 30″ or more to the chair, and about 35″ of open floor in front of the loveseat. About 21″ separates the desk from the loveseat, so nothing touches. You work with your back to the windows.',
+      },
+      {
+        id: 'floating', name: 'Floating desk facing the windows', draw: officeFloating,
+        note: 'Desk pulled about 18″ off the interior windows and facing them, so you look out over the living room with the monitors in the lower part of the view. The whole west end of the room is behind the chair. From the door, go west along the 34″ lane north of the desk and turn south behind it; the lane is tight while the closet door stands open. The loveseat does not fit with this desk: anywhere it goes, it cuts the chair off from the door.',
+      },
+    ],
+  },
+  bed2: {
+    floor: 2,
+    name: 'Guest bedroom',
+    options: [
+      {
+        id: 'south', name: 'Head on the south wall', draw: guestSouth,
+        note: 'Head on the south wall, tight to the brick, so the window runs alongside the whole bed; the sill is about 21″ above the mattress, a window seat for the dog. 22″ between the foot and the hall wall. The west side is open and takes the nightstand. Head south keeps the sleeper a bed length further from the master and the laundry.',
+      },
+      {
+        id: 'north', name: 'Head on the north wall', draw: guestNorth,
+        note: 'Same spot, flipped: head against the hall wall, foot toward the south, with 22″ at the foot. The window still runs alongside the bed. The sleeper faces the door, but their head is against the hall and next to the laundry, so it is the noisier choice.',
+      },
+      {
+        id: 'east', name: 'Head under the window, like the master', draw: guestEast,
+        note: 'Like the master: head on the brick under the window, bed lying east–west across the room. About 21″ on each side to the north and south walls, so both sides are reachable but narrow, and only the west end of the room stays open. A headboard taller than the 46″ sill blocks the bottom of the window.',
+      },
+    ],
+  },
+};
+
+export function chosen(roomId, choices = {}) {
+  const { options } = LAYOUTS[roomId];
+  return options.find((o) => o.id === choices[roomId]) || options[0];
+}
+const layoutSvg = (roomId, choices) => chosen(roomId, choices).draw();
+
+// Marker for a room with more than one layout: two stacked squares in the room's corner.
+const ALT = (id, x, y) => `<g class="alt" data-room="${id}"><title>More than one layout. Tap to compare.</title>` +
+  `<rect x="${x}" y="${y + 3}" width="9" height="9" rx="1.5"/><rect x="${x + 3}" y="${y}" width="9" height="9" rx="1.5"/></g>`;
+
+// The office is drawn 133 x 94 for a measured 121 x 97, so its furniture is scaled to the
+// room instead of drawn in inches, and the fits and gaps read true. Positions are inches
+// from the room's north-west corner.
+const r1 = (n) => Math.round(n * 10) / 10;
+const OX = (i) => r1(10 + (i * 133) / 121);
+const OY = (i) => r1(196 + (i * 94) / 97);
+const OW = (i) => r1((i * 133) / 121);
+const OH = (i) => r1((i * 94) / 97);
+
+// Desk (32 x 63) flush in the north-west corner, chair facing the wall. Loveseat (68 x 39)
+// in the south-east corner, so it starts 53 from the west wall and its arm sits beside the
+// interior windows. Desk to loveseat is 21. The walk from the door to the chair is the open
+// band north of the loveseat, 58 deep less the closet door's swing; it is plain enough in the
+// drawing not to need a dimension.
+function officeWest() {
+  return [
+    `<g class="furn desk" data-room="furniture">`,
+    `<rect class="frame" x="${OX(0)}" y="${OY(0)}" width="${OW(32)}" height="${OH(63)}" rx="1"/>`,
+    `<rect class="tv" x="${OX(1.5)}" y="${OY(17)}" width="${OW(2)}" height="${OH(29)}"/>`,    // monitors, along the wall
+    `</g>`,
+    FIX(OX(35), OY(20), OW(22), OH(24), 3),                                                   // desk chair
+    `<g class="furn loveseat" data-room="furniture">`,
+    `<rect class="frame" x="${OX(53)}" y="${OY(58)}" width="${OW(68)}" height="${OH(39)}" rx="2"/>`,
+    `<path class="part" d="M${OX(59)},${OY(58)} V${OY(97)} M${OX(115)},${OY(58)} V${OY(97)} M${OX(59)},${OY(89)} H${OX(115)} M${OX(87)},${OY(58)} V${OY(89)}"/>`,
+    `</g>`,
+    `<line class="dim" x1="${OX(32)}" y1="${OY(61)}" x2="${OX(53)}" y2="${OY(61)}"/>`,
+    LABEL(OX(42.5), OY(57), '~21″', 'dim'),
+  ].join('');
+}
+
+// Desk pulled 18 off the interior windows and facing them, pushed to the south wall so it
+// stays out of the office door's swing (its north-east corner is 33 from the hinge, the
+// door 30). Chair west of it with the rest of the room behind. The way in is the 34 lane
+// north of the desk, then south behind it. The loveseat has no place here: anywhere it
+// fits, it walls the chair off from the door.
+function officeFloating() {
+  return [
+    `<g class="furn desk" data-room="furniture">`,
+    `<rect class="frame" x="${OX(71)}" y="${OY(34)}" width="${OW(32)}" height="${OH(63)}" rx="1"/>`,
+    `<rect class="tv" x="${OX(99.5)}" y="${OY(51)}" width="${OW(2)}" height="${OH(29)}"/>`,  // monitors, on the window side
+    `</g>`,
+    FIX(OX(45), OY(53), OW(22), OH(24), 3),                                                   // desk chair
+    `<line class="dim" x1="${OX(103)}" y1="${OY(70)}" x2="${OX(121)}" y2="${OY(70)}"/>`,
+    LABEL(OX(112), OY(66), '~18″', 'dim'),
+    `<line class="dim" x1="${OX(66)}" y1="${OY(0)}" x2="${OX(66)}" y2="${OY(34)}"/>`,
+    LABEL(OX(74), OY(14), '~34″', 'dim'),
+  ].join('');
+}
+
+// Guest queen (60 x 80). The room is 102 deep, drawn 1:1. Head on the south wall and tight
+// to the brick, so the window runs alongside the whole bed: the sill is about 21 above the
+// mattress, a window seat for the dog, who is the usual occupant. 22 is left between the
+// foot and the hall wall; the west side is open and takes the one nightstand.
+function guestSouth() {
+  return [
+    `<g class="furn bed" data-room="furniture">`,
+    `<rect class="frame" x="250" y="210" width="60" height="80" rx="2"/>`,
+    `<rect class="pillow" x="254" y="275" width="25" height="11" rx="3"/>`,
+    `<rect class="pillow" x="281" y="275" width="25" height="11" rx="3"/>`,
+    `<line class="part" x1="250" y1="262" x2="310" y2="262"/>`,
+    `</g>`,
+    `<line class="dim" x1="280" y1="188" x2="280" y2="210"/>`,
+    LABEL(266, 203, '~22″', 'dim'),
+  ].join('');
+}
+
+// The same spot flipped: head against the hall wall, 22 at the foot to the south wall.
+function guestNorth() {
+  return [
+    `<g class="furn bed" data-room="furniture">`,
+    `<rect class="frame" x="250" y="188" width="60" height="80" rx="2"/>`,
+    `<rect class="pillow" x="254" y="192" width="25" height="11" rx="3"/>`,
+    `<rect class="pillow" x="281" y="192" width="25" height="11" rx="3"/>`,
+    `<line class="part" x1="250" y1="216" x2="310" y2="216"/>`,
+    `</g>`,
+    `<line class="dim" x1="280" y1="268" x2="280" y2="290"/>`,
+    LABEL(266, 283, '~22″', 'dim'),
+  ].join('');
+}
+
+// Like the master: head on the brick under the window, the bed across the 102 room, so 21
+// is left on each side.
+function guestEast() {
+  return [
+    `<g class="furn bed" data-room="furniture">`,
+    `<rect class="frame" x="230" y="209" width="80" height="60" rx="2"/>`,
+    `<rect class="pillow" x="295" y="213" width="11" height="25" rx="3"/>`,
+    `<rect class="pillow" x="295" y="240" width="11" height="25" rx="3"/>`,
+    `<line class="part" x1="282" y1="209" x2="282" y2="269"/>`,
+    `</g>`,
+    `<line class="dim" x1="262" y1="188" x2="262" y2="209"/>`,
+    LABEL(248, 202, '~21″', 'dim'),
+    `<line class="dim" x1="262" y1="269" x2="262" y2="290"/>`,
+    LABEL(248, 283, '~21″', 'dim'),
+  ].join('');
+}
+
+export function planSvg(floor, choices = {}) {
+  const body = floor === 1 ? downstairs(choices) : upstairs(choices);
   return `<svg viewBox="0 0 320 300" role="img" aria-label="${floor === 1 ? 'Downstairs' : 'Upstairs'} floor plan">${body}</svg>`;
 }
 
-function downstairs() {
+function downstairs(choices) {
   return [
     ROOM('kitchen', 10, 10, 134, 91),
     ROOM('halfbath', 144, 10, 86, 37),                 // 85 x 36
@@ -130,20 +278,23 @@ function downstairs() {
     `<line class="dim" x1="248.9" y1="282" x2="266" y2="282"/>`,
     LABEL(257.5, 271, '~17″', 'dim'),
 
+    layoutSvg('office', choices),
+
     LABEL(78, 60, "Kitchen/Kovu's room"),
     LABEL(187, 32, 'Half bath', 'small'),
     LABEL(270, 34, 'Nook'),
     LABEL(122, 113, 'up', 'small'),
     LABEL(68, 151, 'Stairs', 'small'),
     LABEL(114, 168, 'closet below', 'small'),
-    LABEL(76, 246, "Office/Kovu's room"),
+    LABEL(76, 222, "Office/Kovu's room"),               // high, clear of the furniture in both office layouts
     LABEL(227, 110, "Dining/Kovu's room"),
     LABEL(217, 150, "Living room/Kovu's room"),       // above the couch; the table sits where it was
     VLABEL(302, 150, 'windows'),
+    ALT('office', 14, 274),
   ].join('');
 }
 
-function upstairs() {
+function upstairs(choices) {
   const well = 'M10,102 H144 V188 H10 Z';
   return [
     ROOM('bath1', 10, 10, 59, 92),                    // 59 x 92
@@ -211,18 +362,7 @@ function upstairs() {
     `<line class="dim" x1="236" y1="85" x2="236" y2="102"/>`,
     LABEL(224, 97, '~21″', 'dim'),
 
-    // Guest queen (60 x 80), head on the south wall and tight to the brick, so the window
-    // runs alongside the whole bed: the sill is about 21 above the mattress, a window seat
-    // for the dog, who is the usual occupant. 22 is left between the foot and the hall wall;
-    // the west side is open and takes the one nightstand. Head south keeps the sleeper a bed
-    // length further from the master and the laundry than head north would.
-    `<g class="furn bed" data-room="furniture">`,
-    `<rect class="frame" x="250" y="210" width="60" height="80" rx="2"/>`,
-    `<rect class="pillow" x="254" y="275" width="25" height="11" rx="3"/>`,
-    `<rect class="pillow" x="281" y="275" width="25" height="11" rx="3"/>`,
-    `<line class="part" x1="250" y1="262" x2="310" y2="262"/>`,
-    `</g>`,
-    `<line class="dim" x1="280" y1="188" x2="280" y2="210"/>`,
-    LABEL(266, 203, '~22″', 'dim'),
+    layoutSvg('bed2', choices),
+    ALT('bed2', 122, 274),
   ].join('');
 }

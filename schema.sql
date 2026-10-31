@@ -178,4 +178,6 @@ INSERT OR IGNORE INTO measurements (room_id, label, raw, inches, note, sort) VAL
   ('furniture', 'Bench, depth',          '21"', 21, '', 16),
   ('furniture', 'Bench, armrest height', '25"', 25, 'Floor to the top of the arm', 17),
   ('furniture', 'Guest bed, width',      '60"', 60, 'Queen. Guest bedroom, head on the south wall, tight to the east wall so the window runs alongside the bed', 18),
-  ('furniture', 'Guest bed, length',     '80"', 80, '', 19);
+  ('furniture', 'Guest bed, length',     '80"', 80, '', 19),
+  ('furniture', 'Loveseat, width',       '68"', 68, 'The old tan loveseat. Office, south-east corner, in the "desk on the west wall" layout; it has no place in the floating-desk layout', 20),
+  ('furniture', 'Loveseat, depth',       '39"', 39, '', 21);

@@ -1,4 +1,4 @@
-import { planSvg } from './plan.js?v=13';
+import { planSvg, LAYOUTS, chosen } from './plan.js?v=14';
 
 const $ = (sel, el = document) => el.querySelector(sel);
 const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
@@ -10,6 +10,7 @@ const state = {
   key: safeGet('editKey') || '',
   editing: false,
   lightbox: null,
+  layouts: layoutsFromUrl(),
 };
 
 function safeGet(k) { try { return localStorage.getItem(k); } catch { return null; } }
@@ -102,12 +103,91 @@ function photoById(id) {
 function hasValue(m) { return m.inches != null || (m.raw && m.raw.trim() !== ''); }
 
 function renderPlans() {
-  $('#plan-1').insertAdjacentHTML('beforeend', planSvg(1));
-  $('#plan-2').insertAdjacentHTML('beforeend', planSvg(2));
+  for (const floor of [1, 2]) {
+    $(`#plan-${floor}`).insertAdjacentHTML('beforeend', planSvg(floor, state.layouts) +
+      `<div class="chooser" hidden>
+        <div class="chooser-head"><span class="chooser-name"></span><button type="button" class="link" data-open="">Measurements &amp; photos</button><button type="button" class="chooser-close" aria-label="Close">×</button></div>
+        <div class="chooser-opts" role="group" aria-label="Layouts"></div>
+        <p class="chooser-note"></p>
+      </div>`);
+  }
   $('.plans').addEventListener('click', (e) => {
-    const el = e.target.closest('[data-room]');
-    if (el) openRoom(el.dataset.room);
+    const t = e.target;
+    if (t.matches('[data-layout]')) { const [room, id] = t.dataset.layout.split(':'); return setLayout(room, id); }
+    if (t.matches('[data-open]')) return openRoom(t.dataset.open);
+    if (t.matches('.chooser-close')) return closeChoosers();
+    const el = t.closest('[data-room]');
+    if (el) return LAYOUTS[el.dataset.room] ? openChooser(el.dataset.room) : openRoom(el.dataset.room);
   });
+}
+
+// ---------- layouts ----------
+// Rooms in LAYOUTS have more than one furniture arrangement. Tapping one opens a chooser
+// under its plan instead of its card. The choice lives in the URL (?office=floating&bed2=north)
+// so a link opens on a particular combination.
+
+function layoutsFromUrl() {
+  const q = new URLSearchParams(location.search);
+  const out = {};
+  for (const [room, def] of Object.entries(LAYOUTS)) {
+    const id = q.get(room);
+    if (def.options.some((o) => o.id === id)) out[room] = id;
+  }
+  return out;
+}
+
+function syncUrl() {
+  const q = new URLSearchParams();
+  for (const [room, id] of Object.entries(state.layouts)) if (id !== LAYOUTS[room].options[0].id) q.set(room, id);
+  const s = q.toString();
+  history.replaceState(null, '', `${location.pathname}${s ? `?${s}` : ''}${location.hash}`);
+}
+
+function selectOnPlan(id) {
+  $$('.plans svg .selected').forEach((r) => r.classList.remove('selected'));
+  $$(`.plans svg [data-room="${id}"]`).forEach((r) => r.classList.add('selected'));
+}
+
+function openChooser(room) {
+  const def = LAYOUTS[room];
+  closeChoosers();
+  const ch = $(`#plan-${def.floor} .chooser`);
+  ch.dataset.room = room;
+  $('.chooser-name', ch).textContent = roomById(room)?.name || def.name;
+  $('[data-open]', ch).dataset.open = room;
+  fillChooser(ch, room);
+  ch.hidden = false;
+  selectOnPlan(room);
+}
+
+function fillChooser(ch, room) {
+  const cur = chosen(room, state.layouts);
+  $('.chooser-opts', ch).innerHTML = LAYOUTS[room].options.map((o) =>
+    `<button type="button" class="opt" data-layout="${room}:${o.id}" aria-pressed="${o === cur}">${esc(o.name)}</button>`).join('');
+  $('.chooser-note', ch).textContent = cur.note;
+}
+
+function closeChoosers() {
+  $$('.plans .chooser').forEach((ch) => { ch.hidden = true; delete ch.dataset.room; });
+}
+
+// From a room card: scroll back up to the plan and open the chooser there.
+function showChooser(room) {
+  openChooser(room);
+  $(`#plan-${LAYOUTS[room].floor}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function setLayout(room, id) {
+  state.layouts[room] = id;
+  syncUrl();
+  const floor = LAYOUTS[room].floor;
+  const fig = $(`#plan-${floor}`);
+  $('svg', fig).outerHTML = planSvg(floor, state.layouts);
+  selectOnPlan(room);
+  const ch = $('.chooser', fig);
+  if (ch.dataset.room === room) fillChooser(ch, room);
+  const name = $(`#room-${room} .layout-name`);
+  if (name) name.textContent = chosen(room, state.layouts).name;
 }
 
 function renderRooms() {
@@ -123,6 +203,7 @@ function summaryMeta(room) {
   const measured = room.measurements.filter(hasValue).length;
   const parts = [`${measured} of ${room.measurements.length} measured`];
   if (room.photos.length) parts.push(`${room.photos.length} photo${room.photos.length === 1 ? '' : 's'}`);
+  if (LAYOUTS[room.id]) parts.push(`${LAYOUTS[room.id].options.length} layouts`);
   return parts.join(' · ');
 }
 
@@ -131,6 +212,7 @@ function roomCard(room, open) {
     <summary><span class="name">${esc(room.name)}</span><span class="meta">${summaryMeta(room)}</span></summary>
     <div class="body">
       ${room.blurb ? `<p class="blurb">${esc(room.blurb)}</p>` : ''}
+      ${LAYOUTS[room.id] ? `<p class="layouts">Layout: <span class="layout-name">${esc(chosen(room.id, state.layouts).name)}</span> · <button type="button" class="link" data-choose="${room.id}">Compare on the plan</button></p>` : ''}
       ${state.editing ? `<div class="edit-tools"><label class="add-photo">Add photos<input type="file" accept="image/*" multiple data-upload="${room.id}"></label><button type="button" class="add-measure" data-add="${room.id}">+ Add a measurement</button></div>` : ''}
       <div class="measurements">${room.measurements.map(measurementRow).join('')}</div>
       <div class="photos">${room.photos.map(photoFigure).join('')}</div>
@@ -194,8 +276,7 @@ function openRoom(id) {
   card.scrollIntoView({ behavior: 'smooth', block: 'start' });
   card.classList.add('flash');
   setTimeout(() => card.classList.remove('flash'), 1200);
-  $$('.plans [data-room].selected').forEach((r) => r.classList.remove('selected'));
-  $$(`.plans [data-room="${id}"]`).forEach((r) => r.classList.add('selected'));
+  selectOnPlan(id);
 }
 
 // ---------- toast ----------
@@ -501,6 +582,7 @@ function wire() {
 
   rooms.addEventListener('click', (e) => {
     const t = e.target;
+    if (t.matches('[data-choose]')) return showChooser(t.dataset.choose);
     if (t.matches('[data-add]')) return addMeasurement(t.dataset.add);
     if (t.matches('.m.edit .del')) return deleteMeasurement(t.closest('.m'));
     if (t.matches('.photo .del')) return deletePhoto(t.closest('.photo'));
