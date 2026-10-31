@@ -66,7 +66,7 @@ export const LAYOUTS = {
       },
       {
         id: 'floating', name: 'Floating desk facing the windows', draw: officeFloating,
-        note: 'Desk pulled about 30″ off the west wall and flush with the south wall, chair between it and the wall, so work view is east across the room. From the door. The east half of the room stays open. The loveseat gets junked in this layout.',
+        note: 'Desk pulled about 30″ off the west wall and flush with the south wall, chair between it and the wall, so work view is east across the room. The east half of the room stays open. The loveseat gets junked in this layout.',
       },
     ],
   },
