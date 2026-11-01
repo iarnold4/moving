@@ -203,4 +203,8 @@ INSERT OR IGNORE INTO measurements (room_id, label, raw, inches, note, sort) VAL
   ('furniture', 'Guest bed, width',      '60"', 60, 'Queen. Guest bedroom, head on the south wall, tight to the east wall so the window runs alongside the bed', 18),
   ('furniture', 'Guest bed, length',     '80"', 80, '', 19),
   ('furniture', 'Loveseat, width',       '68"', 68, 'The old tan loveseat. Office, south-east corner, in the "desk on the west wall" layout; it has no place in the floating-desk layout', 20),
-  ('furniture', 'Loveseat, depth',       '39"', 39, '', 21);
+  ('furniture', 'Loveseat, depth',       '39"', 39, '', 21),
+  ('furniture', 'Pantry cabinet, width',  '47.2"', 47.2, 'Kitchen, south wall, just east of the step, about 39" from the end of the west counter so the prep counter and the cabinet doors beside the stove stay clear. Houses the microwave. 119.5 lb', 22),
+  ('furniture', 'Pantry cabinet, depth',  '15"',   15,   'The upper hutch is 11.2" deep', 23),
+  ('furniture', 'Pantry cabinet, height', '71.9"', 71.9, '', 24),
+  ('furniture', 'Pantry cabinet, microwave shelf width', '29.8"', 29.8, 'Shelf 13" deep, opening 15.6" tall. A 0.7 cu ft microwave (about 17 x 13 x 10) sits on it without overhanging', 25);

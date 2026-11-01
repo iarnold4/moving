@@ -216,6 +216,26 @@ function downstairs(choices) {
     FIX(12, 28, 16, 73),            // counter along the west wall, to the south wall
     FIX(120, 12, 22, 24),           // fridge, against the half bath wall
 
+    // Pantry cabinet (47.2 x 15, 71.9 tall) on the kitchen's south wall, in the flush 62 just
+    // east of the wall's step, which is about 39 from the end of the west counter. That keeps
+    // the prep counter beside the stove and the two cabinet doors that swing toward this wall
+    // clear; a tall cabinet at the counter's end would have blocked both. About 15 is left
+    // between it and the stair corner, and about 52 of floor between the north counter's front
+    // and its front. The microwave goes on the open shelf (29.8 wide x 13 deep) at the west
+    // end. Width is drawn at this wall's scale, 110 units for 101 inches; the clearances are
+    // from the measurements. The step itself isn't drawn: its depth isn't recorded.
+    `<g class="furn pantry" data-room="furniture">`,
+    `<rect class="frame" x="70.5" y="86" width="51.4" height="15" rx="1"/>`,
+    `<path class="part" d="M103,86 V101"/>`,                            // shelf side / cupboard side
+    `<rect class="part" x="75.5" y="88.5" width="19" height="11.5"/>`,  // the microwave on its shelf
+    `</g>`,
+    `<line class="dim" x1="28" y1="93" x2="70.5" y2="93"/>`,
+    LABEL(49, 90, '~39″', 'dim'),
+    `<line class="dim" x1="121.9" y1="93" x2="138" y2="93"/>`,
+    LABEL(130, 84, '~15″', 'dim'),
+    `<line class="dim" x1="96" y1="28" x2="96" y2="86"/>`,                      // aisle: north counter front to cabinet front
+    LABEL(106, 60, '~52″', 'dim'),
+
     stairTreads(),
     `<path class="flow" d="M132,119 H28 V178 H128"/>`,
     `<path class="flow-head" d="M127,173 L136,178 L127,183 Z"/>`,
@@ -280,7 +300,7 @@ function downstairs(choices) {
 
     layoutSvg('office', choices),
 
-    LABEL(78, 60, "Kitchen/Kovu's room"),
+    LABEL(58, 60, "Kitchen/Kovu's room"),               // left of the aisle dimension
     LABEL(187, 32, 'Half bath', 'small'),
     LABEL(270, 34, 'Nook'),
     LABEL(122, 113, 'up', 'small'),

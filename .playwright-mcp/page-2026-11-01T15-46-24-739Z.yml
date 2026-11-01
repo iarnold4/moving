@@ -1,0 +1,92 @@
+- generic [active] [ref=f10e1]:
+  - banner [ref=f10e2]:
+    - heading "Moving Measurements" [level=1] [ref=f10e3]
+    - paragraph [ref=f10e4]: Moving in November 20. Tap a room on the plan for its measurements and photos.
+    - navigation "Pages" [ref=f10e5]:
+      - link "Apartment" [ref=f10e6] [cursor=pointer]:
+        - /url: /
+      - link "Boxes" [ref=f10e7] [cursor=pointer]:
+        - /url: /boxes
+    - generic [ref=f10e8]:
+      - generic [ref=f10e9]:
+        - text: Units
+        - combobox "Units" [ref=f10e10]:
+          - option "feet & inches" [selected]
+          - option "centimeters"
+      - button "Copy all as text" [ref=f10e11] [cursor=pointer]
+  - main [ref=f10e12]:
+    - region "Floor plans" [ref=f10e13]:
+      - figure "Downstairs" [ref=f10e14]:
+        - img "Downstairs floor plan" [ref=f10e16]:
+          - generic [ref=f10e17] [cursor=pointer]
+          - generic [ref=f10e18] [cursor=pointer]
+          - generic [ref=f10e19] [cursor=pointer]
+          - generic [ref=f10e20] [cursor=pointer]
+          - generic [ref=f10e21] [cursor=pointer]
+          - generic [ref=f10e22] [cursor=pointer]
+          - generic [ref=f10e23] [cursor=pointer]
+          - generic [ref=f10e24] [cursor=pointer]
+          - generic: ~39″
+          - generic: ~15″
+          - generic: ~52″
+          - generic: front door
+          - generic [ref=f10e27] [cursor=pointer]
+          - generic [ref=f10e31] [cursor=pointer]
+          - generic [ref=f10e34] [cursor=pointer]
+          - generic [ref=f10e37] [cursor=pointer]
+          - generic: ~30″
+          - generic: ~50″
+          - generic: ~17″
+          - generic [ref=f10e40] [cursor=pointer]
+          - generic [ref=f10e43] [cursor=pointer]
+          - generic: ~21″
+          - generic: Kitchen
+          - generic: Kovu's room
+          - generic: Half bath
+          - generic: Nook
+          - generic: up
+          - generic: Stairs
+          - generic: closet below
+          - generic: Office
+          - generic: Kovu's room
+          - generic: Dining
+          - generic: Kovu's room
+          - generic: Living room
+          - generic: Kovu's room
+          - generic: windows
+          - generic "More than one layout. Tap to compare." [ref=f10e46] [cursor=pointer]
+      - figure "Upstairs" [ref=f10e49]:
+        - img "Upstairs floor plan" [ref=f10e51]:
+          - generic [ref=f10e52] [cursor=pointer]
+          - generic [ref=f10e53] [cursor=pointer]
+          - generic [ref=f10e54] [cursor=pointer]
+          - generic [ref=f10e55] [cursor=pointer]
+          - generic [ref=f10e56] [cursor=pointer]
+          - generic [ref=f10e57] [cursor=pointer]
+          - generic [ref=f10e58] [cursor=pointer]
+          - generic [ref=f10e59] [cursor=pointer]
+          - generic [ref=f10e60] [cursor=pointer]
+          - generic: Master bath
+          - generic: Master bedroom
+          - generic: Kovu's room
+          - generic: closet
+          - generic: stairs
+          - generic: open below
+          - generic: hall
+          - generic: Laundry
+          - generic: Guest bath
+          - generic: closet
+          - generic: Guest bedroom
+          - generic: Kovu's room
+          - generic: windows
+          - generic [ref=f10e62] [cursor=pointer]
+          - generic: ~18″
+          - generic: ~21″
+          - generic [ref=f10e66] [cursor=pointer]
+          - generic: ~22″
+          - generic "More than one layout. Tap to compare." [ref=f10e70] [cursor=pointer]
+      - paragraph [ref=f10e73]: Schematic, not to scale. Dashed outlines are furniture; tap one for its sizes. A room marked with two small squares has more than one layout; tap it to compare. Measurements are taken with laser distance measure but should still be treated as approximate.
+    - paragraph [ref=f10e75]: Loading…
+  - contentinfo [ref=f10e76]:
+    - paragraph [ref=f10e77]:
+      - button "Edit" [ref=f10e78] [cursor=pointer]
