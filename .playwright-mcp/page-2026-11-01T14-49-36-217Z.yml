@@ -1,0 +1,19 @@
+- generic [active] [ref=f4e1]:
+  - banner [ref=f4e2]:
+    - heading "Moving Boxes" [level=1] [ref=f4e3]
+    - paragraph [ref=f4e4]: Moving in November 20. Every box by number, where it goes and what is in it.
+    - navigation "Pages" [ref=f4e5]:
+      - link "Apartment" [ref=f4e6] [cursor=pointer]:
+        - /url: /
+      - link "Boxes" [ref=f4e7] [cursor=pointer]:
+        - /url: /boxes
+    - generic [ref=f4e8]:
+      - searchbox "Search boxes" [ref=f4e9]
+      - button "Copy all as text" [ref=f4e10] [cursor=pointer]
+    - paragraph
+  - main [ref=f4e11]:
+    - region "Boxes by room" [ref=f4e12]:
+      - paragraph [ref=f4e13]: Loading…
+  - contentinfo [ref=f4e14]:
+    - paragraph [ref=f4e15]:
+      - button "Edit" [ref=f4e16] [cursor=pointer]

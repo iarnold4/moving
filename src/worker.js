@@ -1,9 +1,11 @@
-// moving.ikeflix.com — tiny API over D1 (measurements) and R2 (photos).
+// moving.ikeflix.com — tiny API over D1 (measurements, boxes) and R2 (photos).
 // Static files in ./public are served by the assets binding; this Worker only
 // runs for /api/* and /photos/* (see run_worker_first in wrangler.jsonc).
 
 const JSON_HEADERS = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' };
-const LIMITS = { label: 120, raw: 60, note: 500, caption: 300, notes: 4000 };
+const LIMITS = { label: 120, raw: 60, note: 500, caption: 300, notes: 4000, contents: 4000 };
+const STATUSES = ['packed', 'moved', 'unpacked'];
+const PHOTO_TABLES = ['photos', 'box_photos'];   // room photos and box photos share R2 and the /photos routes
 
 export default {
   async fetch(request, env, ctx) {
@@ -116,47 +118,139 @@ async function handleApi(request, env, url) {
     return json({ ok: true });
   }
 
+  // ---- boxes ----
+  // id is the number written on the box. A missing id takes the next free number.
+
+  if (method === 'POST' && path === '/boxes') {
+    const body = (await readJson(request)) || {};
+    const { max } = await env.DB.prepare('SELECT COALESCE(MAX(id), 0) AS max FROM boxes').first();
+    const id = Number.isInteger(body.id) && body.id > 0 ? body.id : max + 1;
+    const room = body.room_id ? clean(body.room_id, 40) : null;
+    try {
+      const row = await env.DB.prepare('INSERT INTO boxes (id, room_id, contents, updated_at) VALUES (?1, ?2, ?3, ?4) RETURNING *')
+        .bind(id, room, clean(body.contents, LIMITS.contents), now()).first();
+      return json({ ...row, photos: [] }, 201);
+    } catch (err) {
+      return boxError(err);
+    }
+  }
+
+  if (method === 'PUT' && (m = path.match(/^\/boxes\/(\d+)$/))) {
+    const body = (await readJson(request)) || {};
+    const sets = [];
+    const vals = [];
+    if ('id' in body) {
+      const n = Number(body.id);
+      if (!Number.isInteger(n) || n < 1) return json({ error: 'Box numbers are whole numbers from 1 up' }, 400);
+      sets.push('id = ?'); vals.push(n);
+    }
+    if ('room_id' in body) { sets.push('room_id = ?'); vals.push(body.room_id ? clean(body.room_id, 40) : null); }
+    if ('contents' in body) { sets.push('contents = ?'); vals.push(clean(body.contents, LIMITS.contents)); }
+    if ('status' in body) {
+      if (!STATUSES.includes(body.status)) return json({ error: 'Unknown status' }, 400);
+      sets.push('status = ?'); vals.push(body.status);
+    }
+    if ('fragile' in body) { sets.push('fragile = ?'); vals.push(body.fragile ? 1 : 0); }
+    if ('open_first' in body) { sets.push('open_first = ?'); vals.push(body.open_first ? 1 : 0); }
+    if (!sets.length) return json({ error: 'Nothing to update' }, 400);
+    sets.push('updated_at = ?'); vals.push(now());
+    const oldId = Number(m[1]);
+    vals.push(oldId);
+    try {
+      const row = await env.DB.prepare(`UPDATE boxes SET ${sets.join(', ')} WHERE id = ? RETURNING *`).bind(...vals).first();
+      if (!row) return json({ error: 'No such box' }, 404);
+      // Renumbering: the photos follow. The FK cascades when enforced; this covers it if not.
+      if (row.id !== oldId) await env.DB.prepare('UPDATE box_photos SET box_id = ?1 WHERE box_id = ?2').bind(row.id, oldId).run();
+      const photos = await env.DB.prepare('SELECT id, box_id, caption, width, height, sort, created_at FROM box_photos WHERE box_id = ?1 ORDER BY sort, created_at').bind(row.id).all();
+      return json({ ...row, photos: photos.results });
+    } catch (err) {
+      return boxError(err);
+    }
+  }
+
+  if (method === 'DELETE' && (m = path.match(/^\/boxes\/(\d+)$/))) {
+    const id = Number(m[1]);
+    const photos = await env.DB.prepare('SELECT id FROM box_photos WHERE box_id = ?1').bind(id).all();
+    const [, res] = await env.DB.batch([
+      env.DB.prepare('DELETE FROM box_photos WHERE box_id = ?1').bind(id),
+      env.DB.prepare('DELETE FROM boxes WHERE id = ?1').bind(id),
+    ]);
+    if (!res.meta.changes) return json({ error: 'No such box' }, 404);
+    const keys = photos.results.flatMap((p) => [`${p.id}/full.jpg`, `${p.id}/thumb.jpg`]);
+    if (keys.length) await env.PHOTOS.delete(keys);
+    return json({ ok: true });
+  }
+
+  if (method === 'POST' && (m = path.match(/^\/boxes\/(\d+)\/photos$/))) {
+    const box = await env.DB.prepare('SELECT id FROM boxes WHERE id = ?1').bind(Number(m[1])).first();
+    if (!box) return json({ error: 'No such box' }, 404);
+    const up = await storeUpload(request, env);
+    if (up.error) return up.error;
+    const { max } = await env.DB.prepare('SELECT COALESCE(MAX(sort), 0) AS max FROM box_photos WHERE box_id = ?1').bind(box.id).first();
+    const row = await env.DB.prepare(
+      'INSERT INTO box_photos (id, box_id, caption, width, height, sort, created_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7) RETURNING *',
+    ).bind(up.id, box.id, up.caption, up.width, up.height, max + 1, now()).first();
+    return json(row, 201);
+  }
+
+  // ---- photos ----
+
   if (method === 'POST' && (m = path.match(/^\/rooms\/([a-z0-9]+)\/photos$/))) {
-    const form = await request.formData();
-    const full = form.get('full');
-    const thumb = form.get('thumb');
-    if (!(full instanceof File) || !(thumb instanceof File)) return json({ error: 'Missing image data' }, 400);
-    if (full.size > 8 * 1024 * 1024) return json({ error: 'Image too large' }, 413);
     const room = await env.DB.prepare('SELECT id FROM rooms WHERE id = ?1').bind(m[1]).first();
     if (!room) return json({ error: 'No such room' }, 404);
-
-    const id = crypto.randomUUID();
-    const caption = clean(form.get('caption'), LIMITS.caption);
-    const width = Number(form.get('width')) || null;
-    const height = Number(form.get('height')) || null;
-    const meta = { httpMetadata: { contentType: 'image/jpeg' } };
-    await Promise.all([
-      env.PHOTOS.put(`${id}/full.jpg`, full, meta),
-      env.PHOTOS.put(`${id}/thumb.jpg`, thumb, meta),
-    ]);
+    const up = await storeUpload(request, env);
+    if (up.error) return up.error;
     const { max } = await env.DB.prepare('SELECT COALESCE(MAX(sort), 0) AS max FROM photos WHERE room_id = ?1').bind(m[1]).first();
     const row = await env.DB.prepare(
       'INSERT INTO photos (id, room_id, caption, width, height, sort, created_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7) RETURNING *',
-    ).bind(id, m[1], caption, width, height, max + 1, now()).first();
+    ).bind(up.id, m[1], up.caption, up.width, up.height, max + 1, now()).first();
     return json(row, 201);
   }
 
   if (method === 'PUT' && (m = path.match(/^\/photos\/([0-9a-f-]{36})$/))) {
     const body = (await readJson(request)) || {};
     const caption = clean(body.caption, LIMITS.caption);
-    const row = await env.DB.prepare('UPDATE photos SET caption = ?1 WHERE id = ?2 RETURNING *').bind(caption, m[1]).first();
-    if (!row) return json({ error: 'No such photo' }, 404);
-    return json(row);
+    for (const table of PHOTO_TABLES) {
+      const row = await env.DB.prepare(`UPDATE ${table} SET caption = ?1 WHERE id = ?2 RETURNING *`).bind(caption, m[1]).first();
+      if (row) return json(row);
+    }
+    return json({ error: 'No such photo' }, 404);
   }
 
   if (method === 'DELETE' && (m = path.match(/^\/photos\/([0-9a-f-]{36})$/))) {
-    const res = await env.DB.prepare('DELETE FROM photos WHERE id = ?1').bind(m[1]).run();
-    if (!res.meta.changes) return json({ error: 'No such photo' }, 404);
-    await env.PHOTOS.delete([`${m[1]}/full.jpg`, `${m[1]}/thumb.jpg`]);
-    return json({ ok: true });
+    for (const table of PHOTO_TABLES) {
+      const res = await env.DB.prepare(`DELETE FROM ${table} WHERE id = ?1`).bind(m[1]).run();
+      if (!res.meta.changes) continue;
+      await env.PHOTOS.delete([`${m[1]}/full.jpg`, `${m[1]}/thumb.jpg`]);
+      return json({ ok: true });
+    }
+    return json({ error: 'No such photo' }, 404);
   }
 
   return json({ error: 'Not found' }, 404);
+}
+
+function boxError(err) {
+  if (/UNIQUE|PRIMARY KEY/i.test(err.message)) return json({ error: 'That box number is already taken' }, 409);
+  if (/FOREIGN KEY/i.test(err.message)) return json({ error: 'No such room' }, 404);
+  throw err;
+}
+
+// Reads a photo upload (full and thumb JPEGs made in the browser) and stores both in R2 under
+// a new id. Returns { id, caption, width, height }, or { error } holding the response to send.
+async function storeUpload(request, env) {
+  const form = await request.formData();
+  const full = form.get('full');
+  const thumb = form.get('thumb');
+  if (!(full instanceof File) || !(thumb instanceof File)) return { error: json({ error: 'Missing image data' }, 400) };
+  if (full.size > 8 * 1024 * 1024) return { error: json({ error: 'Image too large' }, 413) };
+  const id = crypto.randomUUID();
+  const meta = { httpMetadata: { contentType: 'image/jpeg' } };
+  await Promise.all([
+    env.PHOTOS.put(`${id}/full.jpg`, full, meta),
+    env.PHOTOS.put(`${id}/thumb.jpg`, thumb, meta),
+  ]);
+  return { id, caption: clean(form.get('caption'), LIMITS.caption), width: Number(form.get('width')) || null, height: Number(form.get('height')) || null };
 }
 
 async function getState(env) {
@@ -175,7 +269,21 @@ async function getState(env) {
     byRoom.get(row.room_id)?.photos.push(row);
     if (row.created_at && (!updated || row.created_at > updated)) updated = row.created_at;
   }
-  return { rooms: [...byRoom.values()], updated };
+  // The box tables came later; a database that hasn't had schema.sql re-run still serves the rooms.
+  let boxes = [];
+  try {
+    const [rows, boxPhotos] = await env.DB.batch([
+      env.DB.prepare('SELECT * FROM boxes ORDER BY id'),
+      env.DB.prepare('SELECT id, box_id, caption, width, height, sort, created_at FROM box_photos ORDER BY sort, created_at'),
+    ]);
+    const byBox = new Map(rows.results.map((b) => [b.id, { ...b, photos: [] }]));
+    for (const row of boxPhotos.results) byBox.get(row.box_id)?.photos.push(row);
+    for (const b of rows.results) if (b.updated_at && (!updated || b.updated_at > updated)) updated = b.updated_at;
+    boxes = [...byBox.values()];
+  } catch (err) {
+    console.error(JSON.stringify({ level: 'error', path: '/api/state', message: `boxes: ${err.message}` }));
+  }
+  return { rooms: [...byRoom.values()], boxes, updated };
 }
 
 // ---------- photos from R2 ----------

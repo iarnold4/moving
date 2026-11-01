@@ -27,6 +27,9 @@ header.site { padding: 20px 16px 8px; max-width: 760px; margin: 0 auto; }
 h1 { font: 600 32px/1.1 ui-serif, Georgia, "Times New Roman", serif; margin: 0 0 6px; letter-spacing: -0.01em; }
 .tag { margin: 0 0 12px; color: var(--muted); }
 .tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 14px; }
+.tabs { display: flex; gap: 4px; margin: 0 0 12px; border-bottom: 1px solid var(--line); }
+.tabs a { padding: 8px 14px; color: var(--muted); text-decoration: none; font-weight: 600; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
 
 main { max-width: 760px; margin: 0 auto; padding: 0 16px 40px; }
 .plans { display: grid; gap: 14px; }
@@ -82,7 +85,8 @@ figure svg { width: 100%; height: auto; display: block; }
 .chooser-opts .opt { border-radius: 999px; padding: 6px 12px; font-size: 14px; text-align: left; }
 .chooser-opts .opt[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .chooser-note { margin: 0; color: var(--muted); font-size: 13px; }
-.layouts { margin: 0 0 8px; font-size: 14px; color: var(--muted); }
+.layouts, .boxline { margin: 0 0 8px; font-size: 14px; color: var(--muted); }
+.boxline a { color: var(--accent); }
 
 /* room cards */
 #rooms { margin-top: 22px; display: grid; gap: 10px; }
@@ -160,8 +164,40 @@ body.editing { padding-bottom: 80px; }
 #lightbox .prev { left: 8px; } #lightbox .next { right: 8px; }
 #lightbox .close { top: 10px; right: 10px; width: 40px; height: 40px; line-height: 40px; }
 
+/* boxes page */
+#search { flex: 1 1 200px; max-width: 360px; border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; background: var(--card); min-width: 0; }
+#add-box { display: none; background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+body.editing #add-box { display: inline-block; }
+.progress { margin: 10px 0 0; color: var(--muted); font-size: 14px; }
+#boxes { margin-top: 8px; display: grid; gap: 10px; }
+.boxes { display: grid; gap: 10px; }
+.box { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--bg); }
+.box.flash { box-shadow: 0 0 0 3px var(--room-hot); }
+.box.saved { animation: flash 0.9s; }
+.box-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.box .num { font: 600 22px/1 ui-serif, Georgia, "Times New Roman", serif; min-width: 2ch; }
+.box .flags { display: flex; gap: 6px; flex: 1; }
+.flag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+.flag.fragile { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); }
+.flag.first { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok); }
+.box .status { font-size: 13px; color: var(--muted); }
+.box .status.s-moved, .box .status.s-unpacked { color: var(--ok); font-weight: 600; }
+.box .contents { margin: 8px 0 0; padding-left: 20px; font-size: 15px; }
+.box .empty { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+.box.edit .numlab { display: flex; align-items: center; gap: 2px; font-size: 18px; color: var(--muted); }
+.box.edit .num-in { width: 4.5em; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; background: var(--card); font-size: 18px; font-weight: 600; }
+.box.edit .room-in { flex: 1; min-width: 0; }
+.box.edit .box-head .del { border: 0; background: none; color: var(--muted); font-size: 18px; padding: 4px 6px; }
+.box.edit .contents-in { width: 100%; min-height: 84px; margin-top: 8px; border: 1px solid var(--line); border-radius: 8px; padding: 8px; background: var(--card); resize: vertical; }
+.box-opts { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin-top: 8px; font-size: 14px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; padding: 6px 10px; font-size: 13px; background: var(--card); }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.box .photos { margin-top: 10px; }
+
 @media print {
-  header .tools, footer, #editbar, .add-measure, .add-photo, .photo .del, .chooser-close, .layouts .link { display: none !important; }
+  header .tools, footer, #editbar, .add-measure, .add-photo, .photo .del, .chooser-close, .layouts .link, .tabs, .boxline a { display: none !important; }
   details.room-card { break-inside: avoid; }
   .body { display: block !important; }
 }

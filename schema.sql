@@ -34,6 +34,29 @@ CREATE TABLE IF NOT EXISTS photos (
 CREATE INDEX IF NOT EXISTS measurements_room ON measurements(room_id, sort);
 CREATE INDEX IF NOT EXISTS photos_room ON photos(room_id, sort);
 
+-- Boxes for the move. id is the number written on the box; room_id is where it is going.
+CREATE TABLE IF NOT EXISTS boxes (
+  id         INTEGER PRIMARY KEY,
+  room_id    TEXT REFERENCES rooms(id),
+  contents   TEXT NOT NULL DEFAULT '',          -- one thing per line
+  status     TEXT NOT NULL DEFAULT 'packed',    -- packed | moved | unpacked
+  fragile    INTEGER NOT NULL DEFAULT 0,
+  open_first INTEGER NOT NULL DEFAULT 0,
+  updated_at TEXT
+);
+
+-- Photos of what went into a box. Same R2 layout as room photos (<id>/full.jpg, <id>/thumb.jpg).
+CREATE TABLE IF NOT EXISTS box_photos (
+  id         TEXT PRIMARY KEY,
+  box_id     INTEGER NOT NULL REFERENCES boxes(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  caption    TEXT NOT NULL DEFAULT '',
+  width      INTEGER,
+  height     INTEGER,
+  sort       INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT
+);
+CREATE INDEX IF NOT EXISTS box_photos_box ON box_photos(box_id, sort);
+
 -- Rooms. Floor 1 = downstairs, 2 = upstairs, 3 = furniture (not a floor: a group for the
 -- things going in, drawn as dashed outlines on the plans). The windows face east, so
 -- blurbs use compass directions. Re-running updates names and blurbs; notes are left alone.
