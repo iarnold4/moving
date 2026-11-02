@@ -255,7 +255,7 @@ function diningOpen() {
   return [
     ROUND(236, 103, 42),
     CHAIR(193, 94, 20, 18), CHAIR(259, 94, 20, 18),      // west, east: the everyday pair
-    CHAIR(234, 11), CHAIR(254, 11),                      // the other two, parked in the nook
+    CHAIR(242, 11), CHAIR(262, 11),                      // the other two, parked in the nook, east of its label
     DIM(143, 108, 193, 108, '~50″', 168, 119),           // foot of the stairs to the west chair
     DIM(279, 98, 310, 98, '~31″', 294, 94),              // east chair to the brick
     DIM(236, 124, 236, 161, '~37″', 250, 146),           // table to the couch
@@ -274,8 +274,8 @@ function diningTucked() {
     RECT(262, 51, 48, 36, '36 × 48'),
     CHAIR(265, 31), CHAIR(289, 31),                      // inside the nook
     CHAIR(265, 89), CHAIR(289, 89),                      // facing them
-    DIM(230, 20, 262, 20, '~24″', 246, 29),              // the way in, half bath wall to the table's end
-    DIM(143, 69, 262, 69, '~118″', 203, 79),             // kitchen opening to the table
+    DIM(230, 16, 262, 16, '~24″', 252, 25),              // the way in, half bath wall to the table's end
+    DIM(143, 100, 262, 100, '~118″', 210, 97),           // kitchen opening to the table, below the Dining label
   ].join('');
 }
 
@@ -424,12 +424,12 @@ function downstairs(choices) {
 
     LABEL(58, 60, "Kitchen/Kovu's room"),               // left of the aisle dimension
     LABEL(187, 32, 'Half bath', 'small'),
-    LABEL(239, 48, 'Nook', 'small'),                    // low in the west corner, clear of the dining layouts that fill the nook
+    VLABEL(240, 30, 'Nook'),                            // up the nook's west wall: the only strip every dining layout leaves free
     LABEL(122, 113, 'up', 'small'),
     LABEL(68, 151, 'Stairs', 'small'),
     LABEL(114, 168, 'closet below', 'small'),
     LABEL(76, 222, "Office/Kovu's room"),               // high, clear of the furniture in both office layouts
-    LABEL(165, 92, "Dining/Kovu's room"),               // west side of the band, clear of every dining layout and its dims
+    LABEL(172, 83, "Dining/Kovu's room"),               // west side of the band, between the half bath door's swing and the open layout's west chair
     LABEL(190, 150, "Living room/Kovu's room"),       // above the couch's west half, clear of the south dining chair
     VLABEL(302, 150, 'windows'),
     ALT('office', 14, 274),
