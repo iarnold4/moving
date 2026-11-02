@@ -275,7 +275,6 @@ function diningTucked() {
     CHAIR(265, 31), CHAIR(289, 31),                      // inside the nook
     CHAIR(265, 89), CHAIR(289, 89),                      // facing them
     DIM(230, 20, 262, 20, '~24″', 246, 29),              // the way in, half bath wall to the table's end
-    DIM(286, 109, 286, 161, '~52″', 275, 137),           // south chairs to the couch
     DIM(143, 69, 262, 69, '~118″', 203, 79),             // kitchen opening to the table
   ].join('');
 }
@@ -295,7 +294,7 @@ function diningBooth() {
     BENCH(248, 10, 44, 21, 'n'),
     ROUND(270, 48, 42),
     CHAIR(238, 64), CHAIR(284, 64),
-    DIM(270, 84, 270, 161, '~77″', 281, 123),            // chairs to the couch
+    DIM(247, 84, 247, 161, '~77″', 258, 123),            // west chair to the couch
   ].join('');
 }
 
@@ -315,7 +314,7 @@ function diningWindow() {
     CHAIR(235, 80, 20, 18), CHAIR(235, 106, 20, 18),
     DIM(143, 108, 235, 108, '~92″', 189, 119),           // foot of the stairs to the chairs
     DIM(275, 51, 275, 72, '~21″', 288, 66),              // nook mouth to the table's end: the way to the nook
-    DIM(275, 132, 275, 161, '~29″', 262, 150),           // table to the couch
+    DIM(255, 132, 255, 161, '~29″', 243, 149),           // table's south-west corner to the couch's corner: the way west
   ].join('');
 }
 
