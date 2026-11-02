@@ -304,8 +304,7 @@ function diningBooth() {
 // six with a chair at each end. That edge passes over both arms, so the table's underside
 // has to clear the 25 arm tops: 26 or more off the floor along that side, a plain top on a
 // pedestal or trestle, or an apron no deeper than about 2 under a 29 top. The nook stays
-// free, reached along the top past the table's end, 21 between the mouth line and the
-// table. About 92 between the chairs and the foot of the stairs. The walk from the front
+// free, reached across the open floor west and north of the table. About 92 between the chairs and the foot of the stairs. The walk from the front
 // door north along the windows ends at the bench.
 function diningWindow() {
   return [
@@ -313,7 +312,6 @@ function diningWindow() {
     RECT(257, 72, 36, 60, '36 × 60'),
     CHAIR(235, 80, 20, 18), CHAIR(235, 106, 20, 18),
     DIM(143, 108, 235, 108, '~92″', 189, 119),           // foot of the stairs to the chairs
-    DIM(275, 51, 275, 72, '~21″', 288, 66),              // nook mouth to the table's end: the way to the nook
     DIM(255, 132, 255, 161, '~29″', 243, 149),           // table's south-west corner to the couch's corner: the way west
   ].join('');
 }
