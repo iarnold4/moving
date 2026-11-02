@@ -35,10 +35,10 @@ const treads = (x, y, w, h, n, vertical, cls = 'tread') => {
   return s;
 };
 
-// The U-shaped stair, 36 wide, inside the stair block (x 10-138, y 101-196): up from the
+// The U-shaped stair, 36 wide, inside the stair block (x 10-143, y 101-196): up from the
 // dining side along the top, winder, down the side wall, winder, back east over the closet.
 const stairTreads = (cls = 'tread') => [
-  treads(46, 101, 92, 36, 8, false, cls),
+  treads(46, 101, 97, 36, 8, false, cls),
   `<line class="${cls}" x1="46" y1="137" x2="10" y2="106"/>`,
   `<line class="${cls}" x1="46" y1="137" x2="22" y2="101"/>`,
   `<line class="${cls}" x1="46" y1="137" x2="10" y2="124"/>`,
@@ -46,7 +46,7 @@ const stairTreads = (cls = 'tread') => [
   `<line class="${cls}" x1="46" y1="160" x2="10" y2="170"/>`,
   `<line class="${cls}" x1="46" y1="160" x2="10" y2="185"/>`,
   `<line class="${cls}" x1="46" y1="160" x2="24" y2="196"/>`,
-  treads(46, 160, 92, 36, 8, false, cls),
+  treads(46, 160, 97, 36, 8, false, cls),
 ].join('');
 
 // ---- furniture layouts ----
@@ -95,19 +95,19 @@ export const LAYOUTS = {
     options: [
       {
         id: 'open', name: 'Round table in the open floor', draw: diningOpen,
-        note: 'A 42″ round pedestal with two chairs out every day, east and west; the other two are parked in the nook and come out for company, so the north and south of the table stay open, about 35″ to the half bath wall and 37″ to the couch, and the nook is reached straight across the top of the room as well as along the windows. About 55″ of floor between the west chair and the foot of the stairs, about 31″ along the windows past the east chair. With all four chairs out, the north and south seats have only about 13″ and 15″ behind them, so those are the sideways-in seats. No table yet; any 36″ to 42″ round would do.',
+        note: 'A round table (42-44") with two chairs out every day, east and west; the other two are parked in the nook and come out for company, so the north and south of the table stay open, about 31″ to the half bath wall and 37″ to the couch. With all four chairs out, the north and south seats have only about 13″ and 15″ behind them, so those only come out for company. This leaves the least open space but does leave the nook open.',
       },
       {
         id: 'tucked', name: 'Table tucked into the nook’s mouth', draw: diningTucked,
-        note: 'A 36 × 60 table with its long side east–west and its north edge on the nook’s mouth, so two chairs sit inside the nook with about 21″ behind them to the back wall, two face them, and one takes the west end: five seats. The east end stops about 10″ from the brick, so no seat there. The set sits high in the room, leaving about 52″ of open floor between the south chairs and the couch and about 74″ from the west chair to the kitchen. The nook’s window is beside the north-east chair.',
+        note: 'A 36 × 48 table pushed against the brick, long side east–west with its north edge on the nook’s mouth, so two chairs sit inside the nook and two face them: four seats, all four chairs. A 60″ table would seal them in, since the nook is only 72″ wide. Leaves majority of dining area open. The table’s east end sits under the nook’s window.',
       },
       {
         id: 'booth', name: 'Booth: the bench in the back of the nook', draw: diningBooth,
-        note: 'The bench (44 × 21, arms 25″ high) against the nook’s back wall, about 14″ from each side wall, with the window at its east end. A 42″ round pedestal riding about 4″ over the bench’s front edge, so the sitters have the table over their laps, and two chairs on the far side: four seats, two of them on the bench, with room for a third chair across when needed. The arms mean nobody slides in sideways, so the table gets pulled out a few inches to sit down and pushed back; buy one light enough for that. About 15″ beside the table on each side of the nook to step in. Ground clearance: a 42″ round centered on the 44″ bench never meets the arms, which are at the bench’s ends, but a rectangle wider than about 38″ would, and then its underside has to clear the 25″ arm tops, so at least 26″ off the floor: a plain top on a pedestal or trestle, no apron on that side. Everything south of the chairs stays open, about 77″ to the couch.',
+        note: 'The bench (44 × 21, arms 25″ high) against the nook’s back wall, about 14″ from each side wall, with the window at its east end. A 42″ round pedestal riding about 4″ over the bench’s front edge, so the sitters have the table over their laps, and two chairs on the far side: four seats, two of them on the bench, with room for a third chair across when needed. Getting into the bench is a little restricted due to the arms. Table can be scooched out a bit when seating 4. About 15″ beside the table on each side of the nook to step in. Ground clearance: a 42″ round centered on the 44″ bench never meets the arms, which are at the bench’s ends, but a rectangle wider than about 38″ would. A square or small rectangle woujld need to be at least 26" to the bottom of the table. Everything south of the chairs stays open, about 77″ to the couch.',
       },
       {
         id: 'window', name: 'Bench under the window, table beside it', draw: diningWindow,
-        note: 'The bench against the brick, centered on the pier between the first two windows with its back to the conduit, and a 36 × 60 table beside it, long side north–south and riding about 4″ over the bench’s front edge, with two chairs on the kitchen side: four everyday seats, six with a chair at each end, which can live in the nook between times; the north one blocks the way to the nook while it is out. Ground clearance: that edge passes over both arms, so the table’s underside has to clear the 25″ arm tops, at least 26″ off the floor along that side. That means a plain top on a pedestal or trestle, or an apron no deeper than about 2″ under a 29″ top. The nook stays free, reached along the top of the room past the table’s end, about 21″ at the pinch. About 97″ of floor between the chairs and the foot of the stairs. The walk from the front door north along the windows ends at the bench.',
+        note: 'The bench against the brick, centered on the pier between the first two windows with its back to the conduit, and a 36 × 60 table beside it, long side north–south and riding about 4″ over the bench’s front edge, with two chairs on the kitchen side: four everyday seats, six with a chair at each end, which can live in the nook between times; the north one blocks the way to the nook while it is out. Ground clearance: that edge passes over both arms, so the table’s underside has to clear the 25″ arm tops, at least 26″ off the floor along that side. Makes east side of apartment a bit full, but max seating and nook is free. Still plenty of space in dining.',
       },
     ],
   },
@@ -222,7 +222,7 @@ function guestEast() {
 
 // ---- dining area ----
 //
-// The band between the half bath wall (y 47) and the couch back (y 161): 166 between the
+// The band between the half bath wall (y 51) and the couch back (y 161): 166 between the
 // kitchen opening and the brick, drawn 1:1, with the nook (72 x 41, drawn 80 wide, so the
 // gaps beside the bench read 4 wider than real) open off its north-east corner. The lanes
 // through it: the kitchen opening and the foot of the stairs on the west, the front door
@@ -247,35 +247,36 @@ const BENCH = (x, y, w, h, back) => {
 // Nothing in the nook but the spare chairs. A 42 round pedestal, centered on the band's
 // depth and a little east of its middle, with two chairs out every day, east and west; the
 // other two are parked against the nook's back wall and come out for company (Isaac's idea).
-// That leaves the north and south of the table open, about 35 to the half bath wall and 37
+// That leaves the north and south of the table open, about 31 to the half bath wall and 37
 // to the couch, so the nook is reached straight across the top as well as along the windows
 // (31 past the east chair), and the lane from the foot of the stairs past the west chair is
-// about 55. With all four out, the north and south seats get only 13 and 15 behind them.
+// about 50. With all four out, the north and south seats get only 13 and 15 behind them.
 function diningOpen() {
   return [
     ROUND(236, 103, 42),
     CHAIR(193, 94, 20, 18), CHAIR(259, 94, 20, 18),      // west, east: the everyday pair
     CHAIR(234, 11), CHAIR(254, 11),                      // the other two, parked in the nook
-    DIM(138, 108, 193, 108, '~55″', 166, 119),           // foot of the stairs to the west chair
+    DIM(143, 108, 193, 108, '~50″', 168, 119),           // foot of the stairs to the west chair
     DIM(279, 98, 310, 98, '~31″', 294, 94),              // east chair to the brick
     DIM(236, 124, 236, 161, '~37″', 250, 146),           // table to the couch
   ].join('');
 }
 
-// Table against the nook's mouth, no bench. 36 x 60 with its long side east-west and its
-// north edge on the mouth line, so two chairs sit inside the nook with 21 behind them to
-// the back wall, two face them, and one takes the west end: five seats. The east end stops
-// 10 from the brick, so no seat there. The set sits high in the room: about 52 of open
-// floor between the south chairs and the couch, 74 from the west chair to the kitchen.
+// Table against the nook's mouth, no bench. 36 x 48 pushed against the brick, long side
+// east-west and north edge on the mouth line, so two chairs sit inside the nook with 21
+// behind them and two face them: four seats, every chair Isaac owns. The 24 left between
+// the table's west end and the half bath wall is the way in to the north chairs (a 60 table
+// would seal them in: the nook is 72 wide). The set sits high in the room: about 52 of open
+// floor between the south chairs and the couch, 118 from the table to the kitchen. The
+// nook is drawn 8 wider than real, so the gap reads bigger than 24 here.
 function diningTucked() {
   return [
-    RECT(240, 51, 60, 36, '36 × 60'),
-    CHAIR(251, 31), CHAIR(273, 31),                      // inside the nook
-    CHAIR(251, 89), CHAIR(273, 89),                      // facing them
-    CHAIR(218, 60, 20, 18),                              // west end
-    DIM(296, 10, 296, 31, '~21″', 283, 24),              // behind the nook chairs
-    DIM(270, 109, 270, 161, '~52″', 281, 137),           // south chairs to the couch
-    DIM(144, 69, 218, 69, '~74″', 181, 79),              // kitchen opening to the west chair
+    RECT(262, 51, 48, 36, '36 × 48'),
+    CHAIR(265, 31), CHAIR(289, 31),                      // inside the nook
+    CHAIR(265, 89), CHAIR(289, 89),                      // facing them
+    DIM(230, 20, 262, 20, '~24″', 246, 29),              // the way in, half bath wall to the table's end
+    DIM(286, 109, 286, 161, '~52″', 275, 137),           // south chairs to the couch
+    DIM(143, 69, 262, 69, '~118″', 203, 79),             // kitchen opening to the table
   ].join('');
 }
 
@@ -305,14 +306,14 @@ function diningBooth() {
 // has to clear the 25 arm tops: 26 or more off the floor along that side, a plain top on a
 // pedestal or trestle, or an apron no deeper than about 2 under a 29 top. The nook stays
 // free, reached along the top past the table's end, 21 between the mouth line and the
-// table. About 97 between the chairs and the foot of the stairs. The walk from the front
+// table. About 92 between the chairs and the foot of the stairs. The walk from the front
 // door north along the windows ends at the bench.
 function diningWindow() {
   return [
     BENCH(289, 80, 21, 44, 'e'),
     RECT(257, 72, 36, 60, '36 × 60'),
     CHAIR(235, 80, 20, 18), CHAIR(235, 106, 20, 18),
-    DIM(138, 108, 235, 108, '~97″', 186, 119),           // foot of the stairs to the chairs
+    DIM(143, 108, 235, 108, '~92″', 189, 119),           // foot of the stairs to the chairs
     DIM(275, 51, 275, 72, '~21″', 288, 66),              // nook mouth to the table's end: the way to the nook
     DIM(275, 132, 275, 161, '~29″', 262, 150),           // table to the couch
   ].join('');
@@ -325,12 +326,12 @@ export function planSvg(floor, choices = {}) {
 
 function downstairs(choices) {
   return [
-    ROOM('kitchen', 10, 10, 134, 91),
-    ROOM('halfbath', 144, 10, 86, 37),                 // 85 x 36
+    ROOM('kitchen', 10, 10, 133, 91),
+    ROOM('halfbath', 143, 10, 87, 41),                 // 85 x 36, drawn to the nook's depth so its south wall and the nook's mouth line up
     ROOM('nook', 230, 10, 80, 41),                     // 72 wide, 41 deep
-    ROOM('stairs', 10, 101, 128, 95),
+    ROOM('stairs', 10, 101, 133, 95),
     ROOM('office', 10, 196, 133, 94),                  // 121 x 97
-    AREA('dining', 'M144,47 H230 V51 H310 V157 H138 V101 H144 Z', 'open'),
+    AREA('dining', 'M143,51 H310 V157 H143 Z', 'open'),
     ROOM('living', 143, 157, 167, 133, 'open'),       // windows to office wall 170; starts at the couch
 
     FIX(12, 12, 108, 16),           // counter along the north wall
@@ -352,27 +353,27 @@ function downstairs(choices) {
     `</g>`,
     `<line class="dim" x1="28" y1="93" x2="70.5" y2="93"/>`,
     LABEL(49, 90, '~39″', 'dim'),
-    `<line class="dim" x1="121.9" y1="93" x2="138" y2="93"/>`,
+    `<line class="dim" x1="121.9" y1="93" x2="143" y2="93"/>`,
     LABEL(130, 84, '~15″', 'dim'),
     `<line class="dim" x1="96" y1="28" x2="96" y2="86"/>`,                      // aisle: north counter front to cabinet front
     LABEL(106, 60, '~52″', 'dim'),
 
     stairTreads(),
-    `<path class="flow" d="M132,119 H28 V178 H128"/>`,
-    `<path class="flow-head" d="M127,173 L136,178 L127,183 Z"/>`,
+    `<path class="flow" d="M137,119 H28 V178 H133"/>`,
+    `<path class="flow-head" d="M132,173 L141,178 L132,183 Z"/>`,
 
     W('M10,10 H310 V290 H10 Z'),
-    W('M144,10 V47 H230 M230,10 V51'),                 // half bath; the nook is simply beside it
-    W('M10,101 H138'),                                 // kitchen / stair block
-    W('M138,137 V196'),                                // stair block side; the entry above it is open
-    W('M91,160 H138 M91,160 V196', 'thin'),            // closet under the top flight, 47 x 36
+    W('M143,10 V51 H230 V10'),                        // half bath; its east wall is the nook's west wall, one line
+    W('M10,101 H143'),                                 // kitchen / stair block
+    W('M143,137 V196'),                                // stair block side; the entry above it is open
+    W('M96,160 H143 M96,160 V196', 'thin'),            // closet under the top flight, 47 x 36
     W('M10,196 H143'),                                 // stair block / office
     W('M143,196 V290'),                                // office wall, with interior windows
     WIN(143, 236, 143, 258), WIN(143, 264, 143, 286),   // interior windows, between the office door and the south wall
 
     WIN(310, 33, 310, 96), WIN(310, 119, 310, 182), WIN(310, 204, 310, 267),   // three 63-wide windows, equal gaps
 
-    DOOR(200, 47, 182, 47, 200, 65),                   // half bath, opens out
+    DOOR(200, 51, 182, 51, 200, 69),                   // half bath, opens out
     DOOR(143, 202, 143, 232, 113, 202),                // office, from the living side; south jamb 58 from the south wall
     DOOR(123, 196, 98, 196, 123, 221),                 // closet, from the office
     DOOR(300, 290, 266, 290, 300, 256, 'front'),
