@@ -274,7 +274,7 @@ function diningTucked() {
     RECT(262, 51, 48, 36, '36 × 48'),
     CHAIR(265, 31), CHAIR(289, 31),                      // inside the nook
     CHAIR(265, 89), CHAIR(289, 89),                      // facing them
-    DIM(230, 16, 262, 16, '~24″', 252, 25),              // the way in, half bath wall to the table's end
+    DIM(230, 54, 262, 54, '~24″', 246, 63),              // the way in, measured at the mouth: half bath wall to the table's end
     DIM(143, 100, 262, 100, '~118″', 210, 97),           // kitchen opening to the table, below the Dining label
   ].join('');
 }
