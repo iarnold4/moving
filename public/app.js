@@ -1,4 +1,4 @@
-import { planSvg, LAYOUTS, chosen } from './plan.js?v=15';
+import { planSvg, LAYOUTS, chosen } from './plan.js?v=16';
 import {
   $, $$, safeGet, safeSet, esc, session, api, toast, flash, setupEditing, resumeEditing, footerText, copyText,
   photoFigure, uploadPhotos, showLightbox, setupLightbox,
@@ -93,14 +93,19 @@ function renderPlans() {
     if (t.matches('[data-open]')) return openRoom(t.dataset.open);
     if (t.matches('.chooser-close')) return closeChoosers();
     const el = t.closest('[data-room]');
-    if (el) return LAYOUTS[el.dataset.room] ? openChooser(el.dataset.room) : openRoom(el.dataset.room);
+    if (!el) return;
+    const lr = layoutRoom(el.dataset.room);
+    return lr ? openChooser(lr) : openRoom(el.dataset.room);
   });
 }
 
 // ---------- layouts ----------
 // Rooms in LAYOUTS have more than one furniture arrangement. Tapping one opens a chooser
 // under its plan instead of its card. The choice lives in the URL (?office=floating&bed2=north)
-// so a link opens on a particular combination.
+// so a link opens on a particular combination. A room named in another room's `also` (the
+// nook, which the dining layouts reach into) opens that room's chooser instead of a card.
+
+const layoutRoom = (id) => (LAYOUTS[id] ? id : Object.keys(LAYOUTS).find((k) => LAYOUTS[k].also?.includes(id)));
 
 function layoutsFromUrl() {
   const q = new URLSearchParams(location.search);
@@ -121,7 +126,9 @@ function syncUrl() {
 
 function selectOnPlan(id) {
   $$('.plans svg .selected').forEach((r) => r.classList.remove('selected'));
-  $$(`.plans svg [data-room="${id}"]`).forEach((r) => r.classList.add('selected'));
+  for (const room of [id, ...(LAYOUTS[id]?.also || [])]) {
+    $$(`.plans svg [data-room="${room}"]`).forEach((r) => r.classList.add('selected'));
+  }
 }
 
 function openChooser(room) {
@@ -162,8 +169,7 @@ function setLayout(room, id) {
   selectOnPlan(room);
   const ch = $('.chooser', fig);
   if (ch.dataset.room === room) fillChooser(ch, room);
-  const name = $(`#room-${room} .layout-name`);
-  if (name) name.textContent = chosen(room, state.layouts).name;
+  $$(`#rooms .layout-name[data-layout-room="${room}"]`).forEach((el) => { el.textContent = chosen(room, state.layouts).name; });
 }
 
 function renderRooms() {
@@ -188,7 +194,7 @@ function roomCard(room, open) {
     <summary><span class="name">${esc(room.name)}</span><span class="meta">${summaryMeta(room)}</span></summary>
     <div class="body">
       ${room.blurb ? `<p class="blurb">${esc(room.blurb)}</p>` : ''}
-      ${LAYOUTS[room.id] ? `<p class="layouts">Layout: <span class="layout-name">${esc(chosen(room.id, state.layouts).name)}</span> · <button type="button" class="link" data-choose="${room.id}">Compare on the plan</button></p>` : ''}
+      ${layoutsLine(room)}
       ${boxesLine(room)}
       ${session.editing ? `<div class="edit-tools"><label class="add-photo">Add photos<input type="file" accept="image/*" multiple data-upload="${room.id}"></label><button type="button" class="add-measure" data-add="${room.id}">+ Add a measurement</button></div>` : ''}
       <div class="measurements">${room.measurements.map(measurementRow).join('')}</div>
@@ -219,6 +225,14 @@ function notesBlock(room) {
   if (session.editing) return `<div class="notes"><h4>Notes</h4><textarea data-notes="${room.id}" placeholder="Anything else about this room" maxlength="4000">${esc(room.notes)}</textarea></div>`;
   if (!room.notes) return '';
   return `<div class="notes"><h4>Notes</h4><p>${esc(room.notes)}</p></div>`;
+}
+
+// "Layout: …" on a room with a chooser; on a room that shares one, "Dining area layout: …".
+function layoutsLine(room) {
+  const lr = layoutRoom(room.id);
+  if (!lr) return '';
+  const head = lr === room.id ? 'Layout' : `${esc(LAYOUTS[lr].name)} layout`;
+  return `<p class="layouts">${head}: <span class="layout-name" data-layout-room="${lr}">${esc(chosen(lr, state.layouts).name)}</span> · <button type="button" class="link" data-choose="${lr}">Compare on the plan</button></p>`;
 }
 
 function boxesLine(room) {

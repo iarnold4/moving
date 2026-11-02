@@ -88,6 +88,29 @@ export const LAYOUTS = {
       },
     ],
   },
+  dining: {
+    floor: 1,
+    name: 'Dining area',
+    also: ['nook'],   // the nook shares this chooser: some of these layouts reach into it
+    options: [
+      {
+        id: 'open', name: 'Round table in the open floor', draw: diningOpen,
+        note: 'A 42″ round pedestal with two chairs out every day, east and west; the other two are parked in the nook and come out for company, so the north and south of the table stay open, about 35″ to the half bath wall and 37″ to the couch, and the nook is reached straight across the top of the room as well as along the windows. About 55″ of floor between the west chair and the foot of the stairs, about 31″ along the windows past the east chair. With all four chairs out, the north and south seats have only about 13″ and 15″ behind them, so those are the sideways-in seats. No table yet; any 36″ to 42″ round would do.',
+      },
+      {
+        id: 'tucked', name: 'Table tucked into the nook’s mouth', draw: diningTucked,
+        note: 'A 36 × 60 table with its long side east–west and its north edge on the nook’s mouth, so two chairs sit inside the nook with about 21″ behind them to the back wall, two face them, and one takes the west end: five seats. The east end stops about 10″ from the brick, so no seat there. The set sits high in the room, leaving about 52″ of open floor between the south chairs and the couch and about 74″ from the west chair to the kitchen. The nook’s window is beside the north-east chair.',
+      },
+      {
+        id: 'booth', name: 'Booth: the bench in the back of the nook', draw: diningBooth,
+        note: 'The bench (44 × 21, arms 25″ high) against the nook’s back wall, about 14″ from each side wall, with the window at its east end. A 42″ round pedestal riding about 4″ over the bench’s front edge, so the sitters have the table over their laps, and two chairs on the far side: four seats, two of them on the bench, with room for a third chair across when needed. The arms mean nobody slides in sideways, so the table gets pulled out a few inches to sit down and pushed back; buy one light enough for that. About 15″ beside the table on each side of the nook to step in. Ground clearance: a 42″ round centered on the 44″ bench never meets the arms, which are at the bench’s ends, but a rectangle wider than about 38″ would, and then its underside has to clear the 25″ arm tops, so at least 26″ off the floor: a plain top on a pedestal or trestle, no apron on that side. Everything south of the chairs stays open, about 77″ to the couch.',
+      },
+      {
+        id: 'window', name: 'Bench under the window, table beside it', draw: diningWindow,
+        note: 'The bench against the brick, centered on the pier between the first two windows with its back to the conduit, and a 36 × 60 table beside it, long side north–south and riding about 4″ over the bench’s front edge, with two chairs on the kitchen side: four everyday seats, six with a chair at each end, which can live in the nook between times; the north one blocks the way to the nook while it is out. Ground clearance: that edge passes over both arms, so the table’s underside has to clear the 25″ arm tops, at least 26″ off the floor along that side. That means a plain top on a pedestal or trestle, or an apron no deeper than about 2″ under a 29″ top. The nook stays free, reached along the top of the room past the table’s end, about 21″ at the pinch. About 97″ of floor between the chairs and the foot of the stairs. The walk from the front door north along the windows ends at the bench.',
+      },
+    ],
+  },
 };
 
 export function chosen(roomId, choices = {}) {
@@ -197,6 +220,104 @@ function guestEast() {
   ].join('');
 }
 
+// ---- dining area ----
+//
+// The band between the half bath wall (y 47) and the couch back (y 161): 166 between the
+// kitchen opening and the brick, drawn 1:1, with the nook (72 x 41, drawn 80 wide, so the
+// gaps beside the bench read 4 wider than real) open off its north-east corner. The lanes
+// through it: the kitchen opening and the foot of the stairs on the west, the front door
+// lane along the windows on the east, the half bath door swinging out at the top. No table
+// is owned yet, so each option assumes one, drawn lighter and not tappable; the bench
+// (44 x 21, carved back and arms 25 high) is real. Chairs are 18 x 20.
+const CHAIR = (x, y, w = 18, h = 20) => FIX(x, y, w, h, 3);
+const TABLE = (shape, label, title) => `<g class="furn table wish"><title>${title}</title>${shape}${label}</g>`;
+const ROUND = (cx, cy, d) => TABLE(`<circle class="frame" cx="${cx}" cy="${cy}" r="${d / 2}"/>`,
+  LABEL(cx, cy + 3, `${d}″`, 'small'), `${d}″ round pedestal table, not owned yet`);
+const RECT = (x, y, w, h, size) => TABLE(`<rect class="frame" x="${x}" y="${y}" width="${w}" height="${h}" rx="1"/>`,
+  LABEL(x + w / 2, y + h / 2 + 3, size, 'small'), `${size} table, not owned yet`);
+const DIM = (x1, y1, x2, y2, text, lx, ly) => `<line class="dim" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>` + LABEL(lx, ly, text, 'dim');
+// The bench with its back on the given side (n or e): a rail along the back, an arm at each end.
+const BENCH = (x, y, w, h, back) => {
+  const parts = back === 'n'
+    ? `M${x},${y + 3} H${x + w} M${x + 3},${y} V${y + h} M${x + w - 3},${y} V${y + h}`
+    : `M${x + w - 3},${y} V${y + h} M${x},${y + 3} H${x + w} M${x},${y + h - 3} H${x + w}`;
+  return `<g class="furn bench" data-room="furniture"><rect class="frame" x="${x}" y="${y}" width="${w}" height="${h}" rx="2"/><path class="part" d="${parts}"/></g>`;
+};
+
+// Nothing in the nook but the spare chairs. A 42 round pedestal, centered on the band's
+// depth and a little east of its middle, with two chairs out every day, east and west; the
+// other two are parked against the nook's back wall and come out for company (Isaac's idea).
+// That leaves the north and south of the table open, about 35 to the half bath wall and 37
+// to the couch, so the nook is reached straight across the top as well as along the windows
+// (31 past the east chair), and the lane from the foot of the stairs past the west chair is
+// about 55. With all four out, the north and south seats get only 13 and 15 behind them.
+function diningOpen() {
+  return [
+    ROUND(236, 103, 42),
+    CHAIR(193, 94, 20, 18), CHAIR(259, 94, 20, 18),      // west, east: the everyday pair
+    CHAIR(234, 11), CHAIR(254, 11),                      // the other two, parked in the nook
+    DIM(138, 108, 193, 108, '~55″', 166, 119),           // foot of the stairs to the west chair
+    DIM(279, 98, 310, 98, '~31″', 294, 94),              // east chair to the brick
+    DIM(236, 124, 236, 161, '~37″', 250, 146),           // table to the couch
+  ].join('');
+}
+
+// Table against the nook's mouth, no bench. 36 x 60 with its long side east-west and its
+// north edge on the mouth line, so two chairs sit inside the nook with 21 behind them to
+// the back wall, two face them, and one takes the west end: five seats. The east end stops
+// 10 from the brick, so no seat there. The set sits high in the room: about 52 of open
+// floor between the south chairs and the couch, 74 from the west chair to the kitchen.
+function diningTucked() {
+  return [
+    RECT(240, 51, 60, 36, '36 × 60'),
+    CHAIR(251, 31), CHAIR(273, 31),                      // inside the nook
+    CHAIR(251, 89), CHAIR(273, 89),                      // facing them
+    CHAIR(218, 60, 20, 18),                              // west end
+    DIM(296, 10, 296, 31, '~21″', 283, 24),              // behind the nook chairs
+    DIM(270, 109, 270, 161, '~52″', 281, 137),           // south chairs to the couch
+    DIM(144, 69, 218, 69, '~74″', 181, 79),              // kitchen opening to the west chair
+  ].join('');
+}
+
+// Booth. The bench against the nook's back wall, 14 from each side wall, the window at its
+// east end; a 42 round pedestal riding about 4 over the bench's front edge, so the sitters
+// have the table over their laps, and two chairs on the far side: four seats, with room for
+// a third chair across when needed. The arms rule out sliding in sideways, so the table gets
+// pulled out to sit down and pushed back. A round centered on the 44 bench never meets the
+// arms, which are at the bench's ends (at 42 its edge is still 8 short of the bench front at
+// the arm line); a rectangle wider than about 38 would, and then its underside has to clear
+// the 25 arm tops (26 or more off the floor: a plain top, no apron on that side). Beside the
+// table inside the nook there is about 15 each side to step in. South of the chairs about 77
+// stays open to the couch.
+function diningBooth() {
+  return [
+    BENCH(248, 10, 44, 21, 'n'),
+    ROUND(270, 48, 42),
+    CHAIR(238, 64), CHAIR(284, 64),
+    DIM(270, 84, 270, 161, '~77″', 281, 123),            // chairs to the couch
+  ].join('');
+}
+
+// Bench under the window. Against the brick, centered on the pier between the first two
+// windows, back to the conduit; a 36 x 60 table beside it, long side north-south and riding
+// about 4 over the bench's front edge, two chairs on the kitchen side: four everyday seats,
+// six with a chair at each end. That edge passes over both arms, so the table's underside
+// has to clear the 25 arm tops: 26 or more off the floor along that side, a plain top on a
+// pedestal or trestle, or an apron no deeper than about 2 under a 29 top. The nook stays
+// free, reached along the top past the table's end, 21 between the mouth line and the
+// table. About 97 between the chairs and the foot of the stairs. The walk from the front
+// door north along the windows ends at the bench.
+function diningWindow() {
+  return [
+    BENCH(289, 80, 21, 44, 'e'),
+    RECT(257, 72, 36, 60, '36 × 60'),
+    CHAIR(235, 80, 20, 18), CHAIR(235, 106, 20, 18),
+    DIM(138, 108, 235, 108, '~97″', 186, 119),           // foot of the stairs to the chairs
+    DIM(275, 51, 275, 72, '~21″', 288, 66),              // nook mouth to the table's end: the way to the nook
+    DIM(275, 132, 275, 161, '~29″', 262, 150),           // table to the couch
+  ].join('');
+}
+
 export function planSvg(floor, choices = {}) {
   const body = floor === 1 ? downstairs(choices) : upstairs(choices);
   return `<svg viewBox="0 0 320 300" role="img" aria-label="${floor === 1 ? 'Downstairs' : 'Upstairs'} floor plan">${body}</svg>`;
@@ -299,18 +420,20 @@ function downstairs(choices) {
     LABEL(257.5, 271, '~17″', 'dim'),
 
     layoutSvg('office', choices),
+    layoutSvg('dining', choices),
 
     LABEL(58, 60, "Kitchen/Kovu's room"),               // left of the aisle dimension
     LABEL(187, 32, 'Half bath', 'small'),
-    LABEL(270, 34, 'Nook'),
+    LABEL(239, 48, 'Nook', 'small'),                    // low in the west corner, clear of the dining layouts that fill the nook
     LABEL(122, 113, 'up', 'small'),
     LABEL(68, 151, 'Stairs', 'small'),
     LABEL(114, 168, 'closet below', 'small'),
     LABEL(76, 222, "Office/Kovu's room"),               // high, clear of the furniture in both office layouts
-    LABEL(227, 110, "Dining/Kovu's room"),
-    LABEL(217, 150, "Living room/Kovu's room"),       // above the couch; the table sits where it was
+    LABEL(165, 92, "Dining/Kovu's room"),               // west side of the band, clear of every dining layout and its dims
+    LABEL(190, 150, "Living room/Kovu's room"),       // above the couch's west half, clear of the south dining chair
     VLABEL(302, 150, 'windows'),
     ALT('office', 14, 274),
+    ALT('dining', 142, 143),
   ].join('');
 }
 
