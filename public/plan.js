@@ -330,8 +330,8 @@ function downstairs(choices) {
     ROOM('nook', 230, 10, 80, 41),                     // 72 wide, 41 deep
     ROOM('stairs', 10, 101, 133, 95),
     ROOM('office', 10, 196, 133, 94),                  // 121 x 97
-    AREA('dining', 'M143,51 H310 V157 H143 Z', 'open'),
-    ROOM('living', 143, 157, 167, 133, 'open'),       // windows to office wall 170; starts at the couch
+    AREA('dining', 'M143,51 H310 V157 H143 Z'),
+    ROOM('living', 143, 157, 167, 133),               // windows to office wall 170; starts at the couch
 
     FIX(12, 12, 108, 16),           // counter along the north wall
     FIX(12, 28, 16, 73),            // counter along the west wall, to the south wall
@@ -376,7 +376,7 @@ function downstairs(choices) {
     DOOR(143, 202, 143, 232, 113, 202),                // office, from the living side; south jamb 58 from the south wall
     DOOR(123, 196, 98, 196, 123, 221),                 // closet, from the office
     DOOR(300, 290, 266, 290, 300, 256, 'front'),
-    LABEL(283, 251, 'front door', 'door'),            // above the swing, clear of the console
+    LABEL(283, 251, 'front door', 'small'),           // above the swing, clear of the console
 
     // Furniture, drawn at the measured sizes. Sizes live on the Furniture card, which
     // tapping an outline opens. The clearances are from the walkthrough measurements, not

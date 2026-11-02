@@ -46,7 +46,6 @@ figure svg { width: 100%; height: auto; display: block; }
 /* floor plan */
 .room { fill: var(--room); cursor: pointer; transition: fill 0.15s; }
 .room:hover, .room.selected { fill: var(--room-hot); }
-.open { fill: transparent; }
 .wall { stroke: var(--wall); stroke-width: 3; fill: none; stroke-linecap: square; stroke-linejoin: miter; pointer-events: none; }
 .wall.thin { stroke-width: 2; }
 .window { stroke: var(--window); stroke-width: 5; fill: none; pointer-events: none; }
@@ -56,7 +55,6 @@ figure svg { width: 100%; height: auto; display: block; }
 .gap { stroke: var(--card); stroke-width: 4; pointer-events: none; }
 .label { font: 12px system-ui, sans-serif; fill: var(--ink); text-anchor: middle; pointer-events: none; }
 .label.small { font-size: 9px; fill: var(--muted); }
-.label.door { font-size: 9px; fill: var(--door); font-weight: 600; }
 .tread { stroke: var(--wall); stroke-width: 1; opacity: 0.45; pointer-events: none; }
 .flow { stroke: var(--ok); stroke-width: 2; fill: none; pointer-events: none; }
 .flow-head { fill: var(--ok); pointer-events: none; }
