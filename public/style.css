@@ -67,8 +67,6 @@ figure svg { width: 100%; height: auto; display: block; }
 .furn .part { fill: none; stroke: var(--door); stroke-width: 1; opacity: 0.5; }   /* arms, seams, shelves, insets */
 .bed .pillow { fill: var(--card); stroke: var(--door); stroke-width: 1; }
 .furn .tv { fill: var(--door); stroke: none; }                                   /* a screen: the TV, the monitors */
-.furn.wish { cursor: default; }                                                   /* assumed, not owned: a table we don't have yet */
-.furn.wish .frame, .furn.wish:hover .frame { fill-opacity: 0.06; stroke-dasharray: 1.5 2.5; }
 .alt { cursor: pointer; }                                                         /* marker: this room has more than one layout */
 .alt rect { fill: var(--card); stroke: var(--accent); stroke-width: 1.2; transition: fill 0.15s; }
 .alt:hover rect { fill: var(--room-hot); }
