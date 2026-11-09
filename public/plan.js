@@ -56,20 +56,6 @@ const stairTreads = (cls = 'tread') => [
 // default. Each option draws its own furniture. Clearances in the notes come from the
 // walkthrough measurements, not the drawing's scale.
 export const LAYOUTS = {
-  office: {
-    floor: 1,
-    name: 'Office',
-    options: [
-      {
-        id: 'west', name: 'Desk on the west wall, with the loveseat', draw: officeWest,
-        note: 'Desk flush in the north-west corner with the chair facing the wall; loveseat in the south-east corner, its arm beside the interior windows. From the door it is a straight walk of 30″ or more to the chair, and about 35″ of open floor in front of the loveseat. About 21″ separates the desk from the loveseat, so nothing touches. Work view is a wall. Only layout that keeps loveseat.',
-      },
-      {
-        id: 'floating', name: 'Floating desk facing the windows', draw: officeFloating,
-        note: 'Desk pulled about 30″ off the west wall and flush with the south wall, chair between it and the wall, so work view is east across the room. The east half of the room stays open. The loveseat gets junked in this layout.',
-      },
-    ],
-  },
   bed2: {
     floor: 2,
     name: 'Guest bedroom',
@@ -109,33 +95,14 @@ const OY = (i) => r1(196 + (i * 94) / 97);
 const OW = (i) => r1((i * 133) / 121);
 const OH = (i) => r1((i * 94) / 97);
 
-// Desk (32 x 63) flush in the north-west corner, chair facing the wall. Loveseat (68 x 39)
-// in the south-east corner, so it starts 53 from the west wall and its arm sits beside the
-// interior windows. Desk to loveseat is 21. The walk from the door to the chair is the open
-// band north of the loveseat, 58 deep less the closet door's swing; it is plain enough in the
-// drawing not to need a dimension.
-function officeWest() {
-  return [
-    `<g class="furn desk" data-room="furniture">`,
-    `<rect class="frame" x="${OX(0)}" y="${OY(0)}" width="${OW(32)}" height="${OH(63)}" rx="1"/>`,
-    `<rect class="tv" x="${OX(1.5)}" y="${OY(17)}" width="${OW(2)}" height="${OH(29)}"/>`,    // monitors, along the wall
-    `</g>`,
-    FIX(OX(35), OY(20), OW(22), OH(24), 3),                                                   // desk chair
-    `<g class="furn loveseat" data-room="furniture">`,
-    `<rect class="frame" x="${OX(53)}" y="${OY(58)}" width="${OW(68)}" height="${OH(39)}" rx="2"/>`,
-    `<path class="part" d="M${OX(59)},${OY(58)} V${OY(97)} M${OX(115)},${OY(58)} V${OY(97)} M${OX(59)},${OY(89)} H${OX(115)} M${OX(87)},${OY(58)} V${OY(89)}"/>`,
-    `</g>`,
-    `<line class="dim" x1="${OX(32)}" y1="${OY(61)}" x2="${OX(53)}" y2="${OY(61)}"/>`,
-    LABEL(OX(42.5), OY(57), '~21″', 'dim'),
-  ].join('');
-}
-
-// Desk pulled 30 off the west wall and flush with the south wall, chair between it and the
-// wall facing east, so the view from the chair is across the room to the interior windows,
-// which run along the south 58 of the east wall. The way in is the 34 lane north of the
-// desk, then south behind it. The east half of the room stays open. The loveseat has no
-// place here: no stretch of wall east of the desk is 68 long, and floated it blocks the door.
-function officeFloating() {
+// The office: the desk (32 x 63) pulled 30 off the west wall and flush with the south wall,
+// chair between it and the wall facing east, so the view from the chair is across the room to
+// the interior windows, which run along the south 58 of the east wall. The way in is the 34
+// lane north of the desk, then south behind it. The east half of the room stays open. Chosen
+// over the desk flush in the north-west corner with the old loveseat in the south-east
+// corner; the loveseat has no place here (no stretch of wall east of the desk is 68 long, and
+// floated it blocks the door), so it goes.
+function officeSet() {
   return [
     `<g class="furn desk" data-room="furniture">`,
     `<rect class="frame" x="${OX(30)}" y="${OY(34)}" width="${OW(32)}" height="${OH(63)}" rx="1"/>`,
@@ -232,11 +199,11 @@ function diningSet() {
 }
 
 export function planSvg(floor, choices = {}) {
-  const body = floor === 1 ? downstairs(choices) : upstairs(choices);
+  const body = floor === 1 ? downstairs() : upstairs(choices);
   return `<svg viewBox="0 0 320 300" role="img" aria-label="${floor === 1 ? 'Downstairs' : 'Upstairs'} floor plan">${body}</svg>`;
 }
 
-function downstairs(choices) {
+function downstairs() {
   return [
     ROOM('kitchen', 10, 10, 133, 91),
     ROOM('halfbath', 143, 10, 95, 41),                 // 85 x 36 inside; drawn to the nook's depth and out to its wall, so the lines meet
@@ -332,7 +299,7 @@ function downstairs(choices) {
     `<line class="dim" x1="248.9" y1="282" x2="266" y2="282"/>`,
     LABEL(257.5, 271, '~17″', 'dim'),
 
-    layoutSvg('office', choices),
+    officeSet(),
     diningSet(),
 
     LABEL(58, 60, "Kitchen/Kovu's room"),               // left of the aisle dimension
@@ -341,11 +308,10 @@ function downstairs(choices) {
     LABEL(122, 113, 'up', 'small'),
     LABEL(68, 151, 'Stairs', 'small'),
     LABEL(114, 168, 'closet below', 'small'),
-    LABEL(76, 222, "Office/Kovu's room"),               // high, clear of the furniture in both office layouts
+    LABEL(76, 222, "Office/Kovu's room"),               // high, clear of the desk and the closet door's swing
     LABEL(172, 83, "Dining/Kovu's room"),               // west side of the band, below the half bath door's swing
     LABEL(190, 150, "Living room/Kovu's room"),       // above the couch's west half
     VLABEL(302, 150, 'windows'),
-    ALT('office', 14, 274),
   ].join('');
 }
 

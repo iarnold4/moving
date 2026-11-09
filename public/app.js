@@ -1,4 +1,4 @@
-import { planSvg, LAYOUTS, chosen } from './plan.js?v=18';
+import { planSvg, LAYOUTS, chosen } from './plan.js?v=19';
 import {
   $, $$, safeGet, safeSet, esc, session, api, toast, flash, setupEditing, resumeEditing, footerText, copyText,
   photoFigure, uploadPhotos, showLightbox, setupLightbox,
